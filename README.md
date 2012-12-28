@@ -52,7 +52,7 @@ Sold Out
 
 _As a customer_  
 _I want to be told when the item I have selected is not available_  
-_So that I can select another item
+_So that I can select another item_  
 
 When the item selected by the customer is out of stock, the machine displays SOLD OUT.  If the display is checked again,
 it will display the amount of money remaining in the machine or INSERT COIN if there is no money in the machine.
@@ -61,8 +61,8 @@ Return Coins
 ------------
 
 _As a customer_  
-_I want to have my money returned  
-_So that I can change my mind about buying stuff from the vending machine  
+_I want to have my money returned_  
+_So that I can change my mind about buying stuff from the vending machine_  
 
 When the return coins is selected, the money the customer has placed in the machine is returned and the display shows
 INSERT COIN.
