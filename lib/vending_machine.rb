@@ -18,12 +18,21 @@ class VendingMachine
     gets.chomp
   end
 
-  def print_help
+  def display_help
     display "Vending Machine Help Menu:"
     display "Type 'q' to exit."
+    display "Type 'p' to display available products."
     display "Type 'r' to return coins."
     display "Acceptable tender are 'quarter', 'dime', and 'nickel'."
     display "Or, you can say 'D## T## W##' for diameter, thickness, and weight in mm and g."
+  end
+
+  # TODO: Create a variable for this.
+  def display_products
+    display "Vending Machine Products:"
+    display "Cola: $1.00"
+    display "Chips $0.50"
+    display "Candy: $0.65"
   end
 
   def display_value
@@ -85,7 +94,9 @@ class VendingMachine
   def handle_input(input)
     case input.downcase
       when 'h'
-        print_help
+        display_help
+      when 'p'
+        display_products
       when 'r'
         @value = 0.0
       when 'q'

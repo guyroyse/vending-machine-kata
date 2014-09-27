@@ -27,16 +27,30 @@ describe VendingMachine do
     end
   end
 
-  describe '#print_help' do
+  describe '#display_help' do
     it 'prints the help information' do
-      vend.print_help
+      vend.display_help
 
       expect(stdout.string).to eq([
-          "Vending Machine Help Menu:",
-          "Type 'q' to exit.",
-          "Type 'r' to return coins.",
-          "Acceptable tender are 'quarter', 'dime', and 'nickel'.",
-          "Or, you can say 'D## T## W##' for diameter, thickness, and weight in mm and g."
+        "Vending Machine Help Menu:",
+        "Type 'q' to exit.",
+        "Type 'p' to display available products.",
+        "Type 'r' to return coins.",
+        "Acceptable tender are 'quarter', 'dime', and 'nickel'.",
+        "Or, you can say 'D## T## W##' for diameter, thickness, and weight in mm and g."
+      ].join("\n").concat("\n"))
+    end
+  end
+
+  describe '#display_products' do
+    it 'displays the avaialble products' do
+      vend.display_products
+
+      expect(stdout.string).to eq([
+        "Vending Machine Products:",
+        "Cola: $1.00",
+        "Chips $0.50",
+        "Candy: $0.65",
       ].join("\n").concat("\n"))
     end
   end
@@ -144,6 +158,7 @@ describe VendingMachine do
           [
             "Vending Machine Help Menu:",
             "Type 'q' to exit.",
+            "Type 'p' to display available products.",
             "Type 'r' to return coins.",
             "Acceptable tender are 'quarter', 'dime', and 'nickel'.",
             "Or, you can say 'D## T## W##' for diameter, thickness, and weight in mm and g.",
@@ -161,9 +176,26 @@ describe VendingMachine do
           [
             "Vending Machine Help Menu:",
             "Type 'q' to exit.",
+            "Type 'p' to display available products.",
             "Type 'r' to return coins.",
             "Acceptable tender are 'quarter', 'dime', and 'nickel'.",
             "Or, you can say 'D## T## W##' for diameter, thickness, and weight in mm and g.",
+            "INSERT COIN\n",
+          ].join("\n")
+        ])
+      end
+
+      it "displays the products when the input is 'p'" do
+        set_input("p\n", "q\n")
+
+        vend.start
+
+        expect_output([
+          [
+            "Vending Machine Products:",
+            "Cola: $1.00",
+            "Chips $0.50",
+            "Candy: $0.65",
             "INSERT COIN\n",
           ].join("\n")
         ])
