@@ -18,12 +18,42 @@ class VendingMachine
     gets.chomp
   end
 
-  def print_help
+  def display_help
     display "Vending Machine Help Menu:"
     display "Type 'q' to exit."
+    display "Type 'p' to display available products."
+    display "Type '1', '2, or '3' to buy something."
     display "Type 'r' to return coins."
     display "Acceptable tender are 'quarter', 'dime', and 'nickel'."
     display "Or, you can say 'D## T## W##' for diameter, thickness, and weight in mm and g."
+  end
+
+  # TODO: Create a variable for this.
+  PRODUCTS = [
+    { :name => 'Cola',  :price => 1.00, :selector => '1' },
+    { :name => 'Chips', :price => 0.50, :selector => '2' },
+    { :name => 'Candy', :price => 0.65, :selector => '3' },
+  ]
+  def display_products
+    display "Vending Machine Products:"
+    PRODUCTS.each do |product|
+      display "#{product[:name]}: #{"$%0.2f" % product[:price]} - buy with '#{product[:selector]}'"
+    end
+  end
+
+  def try_to_purchase(selection)
+    PRODUCTS.each do |product|
+      next unless product[:selector] == selection
+
+      if product[:price] > @value
+        display "PRICE: #{"$%0.2f" % product[:price]}"
+      else
+        display "Dispensing #{product[:name]}"
+        @value -= product[:price]
+      end
+    end
+
+    return false
   end
 
   def display_value
@@ -85,7 +115,9 @@ class VendingMachine
   def handle_input(input)
     case input.downcase
       when 'h'
-        print_help
+        display_help
+      when 'p'
+        display_products
       when 'r'
         @value = 0.0
       when 'q'
@@ -105,6 +137,8 @@ class VendingMachine
         else
           display "'#{input}' is not acceptable tender." 
         end
+      when '1', '2', '3'
+        try_to_purchase(input)
       else
         display "'#{input}' rejected."
     end
