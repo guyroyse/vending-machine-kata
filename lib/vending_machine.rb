@@ -32,8 +32,10 @@ class VendingMachine
         when 'q'
           break
         else
-          display input
+          display "'#{input}' rejected"
       end
+
+      display "INSERT COIN"
       input = get_input
     end
 

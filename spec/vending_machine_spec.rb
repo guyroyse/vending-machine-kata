@@ -62,49 +62,52 @@ describe VendingMachine do
       expect(stdout.string).to eq(output.join)
     end
 
-    it "responds to 'q' with no other input" do
-      set_input("q\n")
+    describe "non-monetary commands" do
+      it "responds to 'q' with no other input" do
+        set_input("q\n")
 
-      vend.start
+        vend.start
 
-      expect_output()
+        expect_output()
+      end
+
+      it "responds to 'Q' with no other input" do
+        set_input("Q\n")
+
+        vend.start
+
+        expect_output()
+      end
+
+      it "prints the help menu when the input is 'h'" do
+        set_input("h\n", "q\n")
+
+        vend.start
+
+        expect_output([
+          "Vending Machine Help Menu:\nType 'q' to exit.\nINSERT COIN\n",
+        ])
+      end
+
+      it "prints the help menu when the input is 'H'" do
+        set_input("H\n", "q\n")
+
+        vend.start
+
+        expect_output([
+          "Vending Machine Help Menu:\nType 'q' to exit.\nINSERT COIN\n",
+        ])
+      end
     end
 
-    it "responds to 'Q' with no other input" do
-      set_input("Q\n")
-
-      vend.start
-
-      expect_output()
-    end
-
-    it "responds to 'hello' and 'q'" do
-      set_input("Hello\n", "q\n")
+    it "rejects invalid input" do
+      set_input("floober\n", "blah\n", "q\n")
 
       vend.start
 
       expect_output([
-        "Hello\n",
-      ])
-    end
-
-    it "prints the help menu when the input is 'h'" do
-      set_input("h\n", "q\n")
-
-      vend.start
-
-      expect_output([
-        "Vending Machine Help Menu:\nType 'q' to exit.\n",
-      ])
-    end
-
-    it "prints the help menu when the input is 'H'" do
-      set_input("H\n", "q\n")
-
-      vend.start
-
-      expect_output([
-        "Vending Machine Help Menu:\nType 'q' to exit.\n",
+        "'floober' rejected\nINSERT COIN\n",
+        "'blah' rejected\nINSERT COIN\n",
       ])
     end
   end
