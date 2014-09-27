@@ -32,8 +32,11 @@ describe VendingMachine do
       vend.print_help
 
       expect(stdout.string).to eq([
-        "Vending Machine Help Menu:",
-        "Type 'q' to exit.",
+          "Vending Machine Help Menu:",
+          "Type 'q' to exit.",
+          "Type 'r' to return coins.",
+          "Acceptable tender are 'quarter', 'dime', and 'nickel'.",
+          "Or, you can say 'D## T## W##' for diameter, thickness, and weight in mm and g."
       ].join("\n").concat("\n"))
     end
   end
@@ -138,7 +141,14 @@ describe VendingMachine do
         vend.start
 
         expect_output([
-          "Vending Machine Help Menu:\nType 'q' to exit.\nINSERT COIN\n",
+          [
+            "Vending Machine Help Menu:",
+            "Type 'q' to exit.",
+            "Type 'r' to return coins.",
+            "Acceptable tender are 'quarter', 'dime', and 'nickel'.",
+            "Or, you can say 'D## T## W##' for diameter, thickness, and weight in mm and g.",
+            "INSERT COIN\n",
+          ].join("\n")
         ])
       end
 
@@ -148,8 +158,50 @@ describe VendingMachine do
         vend.start
 
         expect_output([
-          "Vending Machine Help Menu:\nType 'q' to exit.\nINSERT COIN\n",
+          [
+            "Vending Machine Help Menu:",
+            "Type 'q' to exit.",
+            "Type 'r' to return coins.",
+            "Acceptable tender are 'quarter', 'dime', and 'nickel'.",
+            "Or, you can say 'D## T## W##' for diameter, thickness, and weight in mm and g.",
+            "INSERT COIN\n",
+          ].join("\n")
         ])
+      end
+
+      describe "returns the coins entered (if any) on 'r'" do
+        it "handles returns without any coins entered" do
+          set_input("r\n", "q\n")
+
+          vend.start
+
+          expect_output([
+            "INSERT COIN\n",
+          ])
+        end
+
+        it "handles returns of one coin" do
+          set_input("quarter\n", "r\n", "q\n")
+
+          vend.start
+
+          expect_output([
+            "$0.25\n",
+            "INSERT COIN\n",
+          ])
+        end
+
+        it "handles returns of one coin, then additional coins" do
+          set_input("quarter\n", "r\n", "dime\n", "q\n")
+
+          vend.start
+
+          expect_output([
+            "$0.25\n",
+            "INSERT COIN\n",
+            "$0.10\n",
+          ])
+        end
       end
     end
 
