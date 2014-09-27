@@ -89,20 +89,6 @@ describe VendingMachine do
 
       # Not correct
     end
-    it "can find a penny (within variance)" do
-      # Exact
-      expect(vend.find_coin(19.05, 1.52, 2.500)).to eq(0.01)
-
-      # Within variance
-      expect(vend.find_coin(19.55, 1.52, 2.500)).to eq(0.01)
-      expect(vend.find_coin(18.55, 1.52, 2.500)).to eq(0.01)
-
-      # All below
-
-      # All above
-
-      # Not correct
-    end
   end
 
   describe '#start' do

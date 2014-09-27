@@ -63,12 +63,6 @@ class VendingMachine
       :weight => 5.000,
       :value => 0.05,
     },
-    :penny => {
-      :diameter => 19.05,
-      :thickness => 1.52,
-      :weight => 2.500,
-      :value => 0.01,
-    },
   }
 
   def find_coin(diameter, thickness, weight)
@@ -83,6 +77,36 @@ class VendingMachine
     return nil
   end
 
+  # NOTE: This does not have a specific test for it. But, all of its cases
+  # are tested in the tests for #start
+  def handle_input(input)
+    case input.downcase
+      when 'h'
+        print_help
+      when 'q'
+        return false
+      when 'quarter'
+        handle_input "D24.26 T1.75 W5.670"
+      when 'dime'
+        handle_input "D17.91 T1.35 W2.268"
+      when 'nickel'
+        handle_input "D21.21 T1.95 W5.000"
+      when 'penny'
+        # This is a special case to accomodate users entering 'penny'
+        display "'#{input}' is not acceptable tender." 
+      when /^\s*[Dd]([0-9.]+)\s+[Tt]([0-9.]+)\s+[Ww]([0-9.]+)\s*$/
+        if value = find_coin($1.to_f, $2.to_f, $3.to_f)
+          @value += value
+        else
+          display "'#{input}' is not acceptable tender." 
+        end
+      else
+        display "'#{input}' rejected."
+    end
+
+    return true
+  end
+
   def start
     display "Welcome to the Vending Machine."
     display "Please enter 'q' to exit."
@@ -90,30 +114,7 @@ class VendingMachine
 
     while true do
       display_value
-      input = get_input
-
-      case input.downcase
-        when 'h'
-          print_help
-        when 'q'
-          break
-        when 'quarter'
-          @value += 0.25
-        when 'dime'
-          @value += 0.10
-        when 'nickel'
-          @value += 0.05
-        when 'penny'
-          display "'#{input}' is not acceptable tender."
-        when /^\s*[Dd]([0-9.]+)\s+[Tt]([0-9.]+)\s+[Ww]([0-9.]+)\s*$/
-          if value = find_coin($1.to_f, $2.to_f, $3.to_f)
-            @value += value
-          else
-            display "'#{input}' is not acceptable tender." 
-          end
-        else
-          display "'#{input}' rejected."
-      end
+      handle_input(get_input) || break
     end
 
     display "Thank you for using the Vending Machine."
