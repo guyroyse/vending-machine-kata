@@ -1,5 +1,9 @@
 class VendingMachine
-  attr_accessor_with_default :value, 0.0
+  attr_accessor :value
+
+  def initialize
+    @value = 0.0
+  end
 
   def display(str)
     puts str
@@ -20,10 +24,11 @@ class VendingMachine
   end
 
   def display_value
-    if value.is_zero?
+    if value.zero?
       display "INSERT COIN"
     else
-      display "$#{value}"
+      display "$#{"%0.2f" % value}"
+    end
   end
 
   def start
@@ -41,7 +46,7 @@ class VendingMachine
         when 'q'
           break
         when 'quarter'
-          value += 0.25
+          @value += 0.25
         else
           display "'#{input}' rejected"
       end

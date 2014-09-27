@@ -111,14 +111,27 @@ describe VendingMachine do
       ])
     end
 
-    it "responds to 'quarter'" do
-      set_input("quarter\n", "q\n")
+    describe "money" do
+      it "responds to 'quarter'" do
+        set_input("quarter\n", "q\n")
 
-      vend.start
+        vend.start
 
-      expect_output([
-        "$0.25\n",
-      ])
+        expect_output([
+          "$0.25\n",
+        ])
+      end
+
+      it "responds to two 'quarter'" do
+        set_input("quarter\n", "quarter\n", "q\n")
+
+        vend.start
+
+        expect_output([
+          "$0.25\n",
+          "$0.50\n",
+        ])
+      end
     end
   end
 end
