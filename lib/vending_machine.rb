@@ -1,5 +1,5 @@
 class VendingMachine
-  def truth
-    true
+  def display(str)
+    print str
   end
 end
