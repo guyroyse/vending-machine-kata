@@ -222,7 +222,7 @@ describe VendingMachine do
 
           expect_output([
             "$0.25\n",
-            "INSERT COIN\n",
+            "Returning $0.25\nINSERT COIN\n",
           ])
         end
 
@@ -233,7 +233,7 @@ describe VendingMachine do
 
           expect_output([
             "$0.25\n",
-            "INSERT COIN\n",
+            "Returning $0.25\nINSERT COIN\n",
             "$0.10\n",
           ])
         end

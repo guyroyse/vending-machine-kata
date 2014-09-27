@@ -64,6 +64,11 @@ class VendingMachine
     end
   end
 
+  def return_coins
+    display "Returning #{"$%0.2f" % @value}" unless value.zero?
+    @value = 0.0
+  end
+
   # NOTE: This does not have a specific test for it. But, all of its cases
   # are tested in the tests for #find_coin.
   def in_variance?(target, value, variance=0.05)
@@ -119,7 +124,7 @@ class VendingMachine
       when 'p'
         display_products
       when 'r'
-        @value = 0.0
+        return_coins
       when 'q'
         return false
       when 'quarter'
