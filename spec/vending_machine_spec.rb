@@ -110,15 +110,5 @@ describe VendingMachine do
         "'blah' rejected\nINSERT COIN\n",
       ])
     end
-
-    it "responds to 'quarter'" do
-      set_input("quarter\n", "q\n")
-
-      vend.start
-
-      expect_output([
-        "$0.25\n",
-      ])
-    end
   end
 end
