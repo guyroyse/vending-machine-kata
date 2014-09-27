@@ -27,6 +27,17 @@ describe VendingMachine do
     end
   end
 
+  describe '#print_help' do
+    it 'prints the help information' do
+      vend.print_help
+
+      expect(stdout.string).to eq([
+        "Vending Machine Help Menu:",
+        "Type 'q' to exit.",
+      ].join("\n").concat("\n"))
+    end
+  end
+
   describe '#start' do
     def set_input(*inputs)
       allow(vend).to receive(:gets).and_return(*inputs)
@@ -72,6 +83,26 @@ describe VendingMachine do
 
       expect_output([
         "Hello\n",
+      ])
+    end
+
+    it "prints the help menu when the input is 'h'" do
+      set_input("h\n", "q\n")
+
+      vend.start
+
+      expect_output([
+        "Vending Machine Help Menu:\nType 'q' to exit.\n",
+      ])
+    end
+
+    it "prints the help menu when the input is 'H'" do
+      set_input("H\n", "q\n")
+
+      vend.start
+
+      expect_output([
+        "Vending Machine Help Menu:\nType 'q' to exit.\n",
       ])
     end
   end
