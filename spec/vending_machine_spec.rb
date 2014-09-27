@@ -361,7 +361,7 @@ describe VendingMachine do
         ])
       end
 
-      it "vends chips and shows remainder if you have put too much money" do
+      it "vends chips and returns change if you have put too much money" do
         set_input("quarter\n", "quarter\n", "quarter\n", "2\n", "q\n")
 
         vend.start
@@ -370,7 +370,7 @@ describe VendingMachine do
           "$0.25\n",
           "$0.50\n",
           "$0.75\n",
-          "Dispensing Chips\n$0.25\n",
+          "Dispensing Chips\nReturning $0.25\nINSERT COIN\n",
         ])
       end
     end

@@ -50,6 +50,7 @@ class VendingMachine
       else
         display "Dispensing #{product[:name]}"
         @value -= product[:price]
+        return_coins
       end
     end
 
