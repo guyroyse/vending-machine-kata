@@ -31,6 +31,14 @@ class VendingMachine
     end
   end
 
+  # NOTE: This does not have a specific test for it. But, all of its cases
+  # are tested in the tests for #find_coin.
+  def in_variance?(target, value, variance=0.05)
+    return false if target*(1-variance) > value
+    return false if target*(1+variance) < value
+    return true
+  end
+
   # From: http://www.usmint.gov/about_the_mint/?action=coin_specifications
   # Quarter: D24.26 T1.75 W5.670
   # Dime:    D17.91 T1.35 W2.268
@@ -63,32 +71,16 @@ class VendingMachine
     },
   }
 
-  def in_variance?(target, value, variance=0.05)
-    return false if target*(1-variance) > value
-    return false if target*(1+variance) < value
-    return true
-  end
-
   def find_coin(diameter, thickness, weight)
-    if in_variance?(COINS[:quarter][:diameter], diameter) &&
-       in_variance?(COINS[:quarter][:thickness], thickness) &&
-       in_variance?(COINS[:quarter][:weight], weight)
-      return COINS[:quarter][:value]
-    elsif in_variance?(COINS[:dime][:diameter], diameter) &&
-       in_variance?(COINS[:dime][:thickness], thickness) &&
-       in_variance?(COINS[:dime][:weight], weight)
-      return COINS[:dime][:value]
-    elsif in_variance?(COINS[:nickel][:diameter], diameter) &&
-       in_variance?(COINS[:nickel][:thickness], thickness) &&
-       in_variance?(COINS[:nickel][:weight], weight)
-      return COINS[:nickel][:value]
-    elsif in_variance?(COINS[:penny][:diameter], diameter) &&
-       in_variance?(COINS[:penny][:thickness], thickness) &&
-       in_variance?(COINS[:penny][:weight], weight)
-      return COINS[:penny][:value]
-    else
-      return nil
+    COINS.keys.each do |type|
+      if in_variance?(COINS[type][:diameter], diameter) &&
+         in_variance?(COINS[type][:thickness], thickness) &&
+         in_variance?(COINS[type][:weight], weight)
+        return COINS[type][:value]
+      end
     end
+
+    return nil
   end
 
   def start
@@ -113,11 +105,14 @@ class VendingMachine
           @value += 0.05
         when 'penny'
           display "'#{input}' is not acceptable tender."
-        #when /^\s*[Dd]([0-9.]+)\s+[Tt]([0-9.]+)\s+[Ww]([0-9.]+)\s*$/
-        #  display "'#{input}' rejected" unless find_coin($1.to_f, $2.to_f, $3.to_f)
-          #display "Diam #{$1} Thic #{$2} Weig #{$3}"
+        when /^\s*[Dd]([0-9.]+)\s+[Tt]([0-9.]+)\s+[Ww]([0-9.]+)\s*$/
+          if value = find_coin($1.to_f, $2.to_f, $3.to_f)
+            @value += value
+          else
+            display "'#{input}' is not acceptable tender." 
+          end
         else
-          display "'#{input}' rejected"
+          display "'#{input}' rejected."
       end
     end
 

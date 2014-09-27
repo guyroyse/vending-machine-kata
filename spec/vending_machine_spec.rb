@@ -173,8 +173,8 @@ describe VendingMachine do
       vend.start
 
       expect_output([
-        "'floober' rejected\nINSERT COIN\n",
-        "'blah' rejected\nINSERT COIN\n",
+        "'floober' rejected.\nINSERT COIN\n",
+        "'blah' rejected.\nINSERT COIN\n",
       ])
     end
 
@@ -239,6 +239,28 @@ describe VendingMachine do
 
         expect_output([
           "'penny' is not acceptable tender.\nINSERT COIN\n",
+        ])
+      end
+    end
+
+    describe "handling specified diameter/thickness/weight" do
+      it "handles D24.26 T1.75 W5.670 (quarter)" do
+        set_input("D24.26 T1.75 W5.670\n", "q\n")
+
+        vend.start
+
+        expect_output([
+          "$0.25\n",
+        ])
+      end
+
+      it "rejects D21.26 T1.55 W5.670 (shaved quarter)" do
+        set_input("D21.26 T1.55 W5.670\n", "q\n")
+
+        vend.start
+
+        expect_output([
+          "'D21.26 T1.55 W5.670' is not acceptable tender.\nINSERT COIN\n",
         ])
       end
     end
