@@ -21,6 +21,9 @@ class VendingMachine
   def print_help
     display "Vending Machine Help Menu:"
     display "Type 'q' to exit."
+    display "Type 'r' to return coins."
+    display "Acceptable tender are 'quarter', 'dime', and 'nickel'."
+    display "Or, you can say 'D## T## W##' for diameter, thickness, and weight in mm and g."
   end
 
   def display_value
@@ -83,6 +86,8 @@ class VendingMachine
     case input.downcase
       when 'h'
         print_help
+      when 'r'
+        @value = 0.0
       when 'q'
         return false
       when 'quarter'
