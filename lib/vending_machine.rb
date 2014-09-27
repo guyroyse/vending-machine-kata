@@ -47,6 +47,10 @@ class VendingMachine
           break
         when 'quarter'
           @value += 0.25
+        when 'dime'
+          @value += 0.10
+        when 'nickel'
+          @value += 0.05
         else
           display "'#{input}' rejected"
       end

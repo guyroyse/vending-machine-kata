@@ -111,7 +111,7 @@ describe VendingMachine do
       ])
     end
 
-    describe "money" do
+    describe "handling money" do
       it "responds to 'quarter'" do
         set_input("quarter\n", "q\n")
 
@@ -119,6 +119,26 @@ describe VendingMachine do
 
         expect_output([
           "$0.25\n",
+        ])
+      end
+
+      it "responds to 'dime'" do
+        set_input("dime\n", "q\n")
+
+        vend.start
+
+        expect_output([
+          "$0.10\n",
+        ])
+      end
+
+      it "responds to 'nickel'" do
+        set_input("nickel\n", "q\n")
+
+        vend.start
+
+        expect_output([
+          "$0.05\n",
         ])
       end
 
@@ -130,6 +150,18 @@ describe VendingMachine do
         expect_output([
           "$0.25\n",
           "$0.50\n",
+        ])
+      end
+
+      it "responds to multiple different coins" do
+        set_input("quarter\n", "nickel\n", "dime\n", "q\n")
+
+        vend.start
+
+        expect_output([
+          "$0.25\n",
+          "$0.30\n",
+          "$0.40\n",
         ])
       end
     end
