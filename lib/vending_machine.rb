@@ -9,7 +9,7 @@ class VendingMachine
 
   def get_input
     prompt
-    gets.downcase.chomp
+    gets.chomp
   end
 
   def start
@@ -17,7 +17,7 @@ class VendingMachine
     display "Please enter 'q' to exit."
 
     input = get_input
-    while input != 'q' do
+    while input.downcase != 'q' do
       display input
       input = get_input
     end
