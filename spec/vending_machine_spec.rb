@@ -35,6 +35,7 @@ describe VendingMachine do
         "Vending Machine Help Menu:",
         "Type 'q' to exit.",
         "Type 'p' to display available products.",
+        "Type '1', '2, or '3' to buy something.",
         "Type 'r' to return coins.",
         "Acceptable tender are 'quarter', 'dime', and 'nickel'.",
         "Or, you can say 'D## T## W##' for diameter, thickness, and weight in mm and g."
@@ -48,9 +49,9 @@ describe VendingMachine do
 
       expect(stdout.string).to eq([
         "Vending Machine Products:",
-        "Cola: $1.00",
-        "Chips $0.50",
-        "Candy: $0.65",
+        "Cola: $1.00 - buy with '1'",
+        "Chips: $0.50 - buy with '2'",
+        "Candy: $0.65 - buy with '3'",
       ].join("\n").concat("\n"))
     end
   end
@@ -159,6 +160,7 @@ describe VendingMachine do
             "Vending Machine Help Menu:",
             "Type 'q' to exit.",
             "Type 'p' to display available products.",
+            "Type '1', '2, or '3' to buy something.",
             "Type 'r' to return coins.",
             "Acceptable tender are 'quarter', 'dime', and 'nickel'.",
             "Or, you can say 'D## T## W##' for diameter, thickness, and weight in mm and g.",
@@ -177,6 +179,7 @@ describe VendingMachine do
             "Vending Machine Help Menu:",
             "Type 'q' to exit.",
             "Type 'p' to display available products.",
+            "Type '1', '2, or '3' to buy something.",
             "Type 'r' to return coins.",
             "Acceptable tender are 'quarter', 'dime', and 'nickel'.",
             "Or, you can say 'D## T## W##' for diameter, thickness, and weight in mm and g.",
@@ -193,9 +196,9 @@ describe VendingMachine do
         expect_output([
           [
             "Vending Machine Products:",
-            "Cola: $1.00",
-            "Chips $0.50",
-            "Candy: $0.65",
+            "Cola: $1.00 - buy with '1'",
+            "Chips: $0.50 - buy with '2'",
+            "Candy: $0.65 - buy with '3'",
             "INSERT COIN\n",
           ].join("\n")
         ])
@@ -331,6 +334,43 @@ describe VendingMachine do
 
         expect_output([
           "'D21.26 T1.55 W5.670' is not acceptable tender.\nINSERT COIN\n",
+        ])
+      end
+    end
+
+    describe "purchasing products" do
+      it "doesn't vend if you don't put enough money" do
+        set_input("2\n", "q\n")
+
+        vend.start
+
+        expect_output([
+          "PRICE: $0.50\nINSERT COIN\n",
+        ])
+      end
+
+      it "vends chips if you have put enough money" do
+        set_input("quarter\n", "quarter\n", "2\n", "q\n")
+
+        vend.start
+
+        expect_output([
+          "$0.25\n",
+          "$0.50\n",
+          "Dispensing Chips\nINSERT COIN\n",
+        ])
+      end
+
+      it "vends chips and shows remainder if you have put too much money" do
+        set_input("quarter\n", "quarter\n", "quarter\n", "2\n", "q\n")
+
+        vend.start
+
+        expect_output([
+          "$0.25\n",
+          "$0.50\n",
+          "$0.75\n",
+          "Dispensing Chips\n$0.25\n",
         ])
       end
     end
