@@ -47,6 +47,8 @@ describe VendingMachine do
       output = [
         "Welcome to the Vending Machine.\n",
         "Please enter 'q' to exit.\n",
+        "\n",
+        "INSERT COIN\n",
       ]
 
       output << "> "

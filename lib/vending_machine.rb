@@ -21,6 +21,9 @@ class VendingMachine
     display "Welcome to the Vending Machine."
     display "Please enter 'q' to exit."
 
+    display ""
+    display "INSERT COIN"
+
     input = get_input
     while true do
       case input.downcase
