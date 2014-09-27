@@ -38,6 +38,73 @@ describe VendingMachine do
     end
   end
 
+  describe '#find_coin' do
+    it "can find a quarter (within variance)" do
+      # Exact
+      expect(vend.find_coin(24.26, 1.75, 5.670)).to eq(0.25)
+
+      # Within variance
+      expect(vend.find_coin(24.1, 1.75, 5.670)).to eq(0.25)
+      expect(vend.find_coin(25.1, 1.75, 5.670)).to eq(0.25)
+      expect(vend.find_coin(24.26, 1.79, 5.670)).to eq(0.25)
+      expect(vend.find_coin(24.26, 1.69, 5.670)).to eq(0.25)
+      expect(vend.find_coin(24.26, 1.75, 5.770)).to eq(0.25)
+      expect(vend.find_coin(24.26, 1.75, 5.570)).to eq(0.25)
+
+      # All below
+      expect(vend.find_coin(24.1, 1.70, 5.570)).to eq(0.25)
+
+      # All above
+      expect(vend.find_coin(24.5, 1.80, 5.920)).to eq(0.25)
+
+      # Not correct
+      expect(vend.find_coin(22.1, 1.75, 5.670)).to eq(nil)
+      expect(vend.find_coin(24.1, 1.55, 5.670)).to eq(nil)
+    end
+    it "can find a dime (within variance)" do
+      # Exact
+      expect(vend.find_coin(17.91, 1.35, 2.268)).to eq(0.10)
+
+      # Within variance
+      expect(vend.find_coin(17.51, 1.35, 2.268)).to eq(0.10)
+      expect(vend.find_coin(18.21, 1.35, 2.268)).to eq(0.10)
+
+      # All below
+
+      # All above
+
+      # Not correct
+    end
+    it "can find a nickel (within variance)" do
+      # Exact
+      expect(vend.find_coin(21.21, 1.95, 5.000)).to eq(0.05)
+
+      # Within variance
+      expect(vend.find_coin(21.71, 1.95, 5.000)).to eq(0.05)
+      expect(vend.find_coin(20.21, 1.95, 5.000)).to eq(0.05)
+
+      # All below
+
+      # All above
+
+      # Not correct
+    end
+    it "can find a penny (within variance)" do
+      # Exact
+      expect(vend.find_coin(19.05, 1.52, 2.500)).to eq(0.01)
+
+      # Within variance
+      expect(vend.find_coin(19.55, 1.52, 2.500)).to eq(0.01)
+      expect(vend.find_coin(18.55, 1.52, 2.500)).to eq(0.01)
+
+      # All below
+
+      # All above
+
+      # Not correct
+    end
+  end
+
   describe '#start' do
     def set_input(*inputs)
       allow(vend).to receive(:gets).and_return(*inputs)
@@ -162,6 +229,16 @@ describe VendingMachine do
           "$0.25\n",
           "$0.30\n",
           "$0.40\n",
+        ])
+      end
+
+      it "rejects penny" do
+        set_input("penny\n", "q\n")
+
+        vend.start
+
+        expect_output([
+          "'penny' is not acceptable tender.\nINSERT COIN\n",
         ])
       end
     end
