@@ -15,6 +15,14 @@ namespace VendingMachineTest
             Assert.IsTrue(machine.InsertCoin(Coin.Quarter));
         }
 
+        [TestMethod]
+        public void ShouldRejectInvalidCoins()
+        {
+            var machine = new VendingMachine.VendingMachine();
+            Assert.IsFalse(machine.InsertCoin(Coin.Penny));
+
+        }
+
 
     }
 }
