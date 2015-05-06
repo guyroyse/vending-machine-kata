@@ -16,9 +16,11 @@ namespace VendingMachine
 
     public class VendingMachine
     {
+        private Coin[] validCoins = { Coin.Nickle, Coin.Dime, Coin.Quarter };
+         
         public Boolean InsertCoin(Coin coin)
         {
-            return false;
+            return validCoins.Contains(coin);
         }
     }
 }
