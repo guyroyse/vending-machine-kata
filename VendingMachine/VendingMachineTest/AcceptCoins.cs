@@ -1,17 +1,18 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VendingMachine;
-
 
 namespace VendingMachineTest
 {
     [TestClass]
-    public class VendingMachine
+    public class VendingMachineTest
     {
         [TestMethod]
         public void ShouldAcceptValidCoins()
         {
-            Assert.Fail(); 
+            var machine = new VendingMachine.VendingMachine();
+            Assert.IsTrue(machine.InsertCoin(Coin.Nickle));
+            Assert.IsTrue(machine.InsertCoin(Coin.Dime));
+            Assert.IsTrue(machine.InsertCoin(Coin.Quarter));
         }
 
 
