@@ -21,7 +21,16 @@ namespace VendingMachine
         private Coin[] validCoins = { Coin.Nickle, Coin.Dime, Coin.Quarter };
 
         public int CurrentAmount { get;set; }
-        public String Display { get; set; }
+        public String Display {
+            get
+            {
+                if (CurrentAmount == 0)
+                {
+                    return INSERT_COIN_DISPLAY;
+                }
+                return CurrentAmount.ToString();
+            }
+        }
 
          
         public Boolean InsertCoin(Coin coin)
@@ -29,7 +38,6 @@ namespace VendingMachine
             if (validCoins.Contains(coin))
             {
                 CurrentAmount += (int)coin;
-                Display = CurrentAmount.ToString();
                 return true;
             }
 
