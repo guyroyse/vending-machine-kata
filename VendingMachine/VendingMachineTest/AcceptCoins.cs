@@ -40,5 +40,12 @@ namespace VendingMachineTest
             Assert.AreEqual(machine.Display, "15");
         }
 
+        [TestMethod]
+        public void ShouldDisplayINSERTCOINSWhenNoCoins()
+        {
+            Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.INSERT_COIN_DISPLAY);
+
+        }
+
     }
 }

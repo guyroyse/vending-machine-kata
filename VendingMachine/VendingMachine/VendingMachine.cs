@@ -16,6 +16,8 @@ namespace VendingMachine
 
     public class VendingMachine
     {
+        public const String INSERT_COIN_DISPLAY = "INSERT COIN";
+
         private Coin[] validCoins = { Coin.Nickle, Coin.Dime, Coin.Quarter };
 
         public int CurrentAmount { get;set; }
