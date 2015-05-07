@@ -23,9 +23,10 @@ namespace VendingMachineTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(VendingMachine.VendingMachine.InvalidCoinException))]
         public void ShouldRejectInvalidCoins()
         {
-            Assert.IsFalse(machine.InsertCoin(Coin.Penny));
+            machine.InsertCoin(Coin.Penny);
         }
 
         [TestMethod]

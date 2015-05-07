@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VendingMachine
 {
-    public enum Coin:int
+    public enum Coin : int
     {
         Penny = 1,
         Nickle = 5,
@@ -17,6 +17,8 @@ namespace VendingMachine
     public class VendingMachine
     {
         public const String INSERT_COIN_DISPLAY = "INSERT COIN";
+
+        public class InvalidCoinException : Exception { };
 
         private Coin[] validCoins = { Coin.Nickle, Coin.Dime, Coin.Quarter };
 
@@ -41,7 +43,7 @@ namespace VendingMachine
                 return true;
             }
 
-            return false;
+            throw new InvalidCoinException();
         }
     }   
 }
