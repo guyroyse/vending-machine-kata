@@ -17,9 +17,9 @@ namespace VendingMachineTest
         [TestMethod]
         public void ShouldAcceptValidCoins()
         {
-            Assert.IsTrue(machine.InsertCoin(Coin.Nickle));
-            Assert.IsTrue(machine.InsertCoin(Coin.Dime));
-            Assert.IsTrue(machine.InsertCoin(Coin.Quarter));
+            machine.InsertCoin(Coin.Nickle);
+            machine.InsertCoin(Coin.Dime);
+            machine.InsertCoin(Coin.Quarter);
         }
 
         [TestMethod]

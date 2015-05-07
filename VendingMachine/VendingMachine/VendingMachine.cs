@@ -35,12 +35,12 @@ namespace VendingMachine
         }
 
          
-        public Boolean InsertCoin(Coin coin)
+        public int InsertCoin(Coin coin)
         {
             if (validCoins.Contains(coin))
             {
                 CurrentAmount += (int)coin;
-                return true;
+                return CurrentAmount;
             }
 
             throw new InvalidCoinException();
