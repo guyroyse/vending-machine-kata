@@ -33,8 +33,9 @@ namespace VendingMachine
                 return CurrentAmount.ToString();
             }
         }
+        public int CoinReturn { get; set; }
 
-         
+
         public int InsertCoin(Coin coin)
         {
             if (validCoins.Contains(coin))

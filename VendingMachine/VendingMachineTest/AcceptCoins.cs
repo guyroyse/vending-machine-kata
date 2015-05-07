@@ -47,5 +47,21 @@ namespace VendingMachineTest
             Assert.AreEqual(machine.Display, VendingMachine.VendingMachine.INSERT_COIN_DISPLAY);
         }
 
+        [TestMethod]
+        public void ShouldPutRejectedCoinsIntoCoinReturn()
+        {
+            machine.InsertCoin(Coin.Nickle);
+            Assert.AreEqual(machine.CoinReturn, 0);
+
+            try
+            {
+                machine.InsertCoin(Coin.Penny);
+            }
+            catch (VendingMachine.VendingMachine.InvalidCoinException)
+            {
+                Assert.AreEqual(machine.CoinReturn, 1);
+
+            }
+        }
     }
 }
