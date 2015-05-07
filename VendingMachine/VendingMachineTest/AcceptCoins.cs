@@ -32,14 +32,12 @@ namespace VendingMachineTest
         public void ShouldAddAmountToAndDisplayCurrentAmount()
         {
             machine.InsertCoin(Coin.Nickle);
-            Assert.Equals(machine.CurrentAmount, 5);
-            Assert.Equals(machine.Display, "5");
+            Assert.AreEqual(machine.CurrentAmount, 5);
+            Assert.AreEqual(machine.Display, "5");
 
             machine.InsertCoin(Coin.Dime);
-            Assert.Equals(machine.CurrentAmount, 15);
-            Assert.Equals(machine.Display, "15");
-
-
+            Assert.AreEqual(machine.CurrentAmount, 15);
+            Assert.AreEqual(machine.Display, "15");
         }
 
     }

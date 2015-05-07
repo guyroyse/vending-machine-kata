@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VendingMachine
 {
-    public enum Coin
+    public enum Coin:int
     {
         Penny = 1,
         Nickle = 5,
@@ -24,7 +24,14 @@ namespace VendingMachine
          
         public Boolean InsertCoin(Coin coin)
         {
-            return validCoins.Contains(coin);
+            if (validCoins.Contains(coin))
+            {
+                CurrentAmount += (int)coin;
+                Display = CurrentAmount.ToString();
+                return true;
+            }
+
+            return false;
         }
     }   
 }
