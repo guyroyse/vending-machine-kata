@@ -17,10 +17,14 @@ namespace VendingMachine
     public class VendingMachine
     {
         private Coin[] validCoins = { Coin.Nickle, Coin.Dime, Coin.Quarter };
+
+        public int CurrentAmount { get;set; }
+        public String Display { get; set; }
+
          
         public Boolean InsertCoin(Coin coin)
         {
             return validCoins.Contains(coin);
         }
-    }
+    }   
 }
