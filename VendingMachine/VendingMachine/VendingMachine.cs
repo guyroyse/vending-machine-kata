@@ -44,6 +44,7 @@ namespace VendingMachine
                 return CurrentAmount;
             }
 
+            CoinReturn += (int)coin;
             throw new InvalidCoinException();
         }
     }   
