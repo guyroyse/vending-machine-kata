@@ -8,7 +8,8 @@ class VendingMachineTest extends \PHPUnit_Framework_TestCase
     {
         $this->vm = new VendingMachine();
     }
-    public function test1()
+
+    public function testAcceptCoins()
     {
         $this->vm->accept(new Coin());
         $this->assertEquals(1, count($this->vm->coinReturn));
@@ -32,5 +33,39 @@ class VendingMachineTest extends \PHPUnit_Framework_TestCase
         $this->vm->accept(new Coin(10, 10));
         $this->assertEquals(3, count($this->vm->coinReturn));
         $this->assertEquals("$0.15", $this->vm->display());
+    }
+
+    public function testSelectProduct()
+    {
+        $this->vm->accept(new Coin(25, 25));
+        $this->vm->accept(new Coin(25, 25));
+        $this->vm->accept(new Coin(25, 25));
+        $this->vm->load(new Product("cola", 100, 2));
+        $this->vm->load(new Product("candy", 65, 3));
+        $this->vm->load(new Product("steak", 999, 0));
+        $this->assertEquals("$0.75", $this->vm->display());
+        $this->assertEquals("PRICE $1.00", $this->vm->select("cola"));
+        $this->assertEquals("OUT OF ITEM", $this->vm->select("steak"));
+
+        $this->vm->accept(new Coin(25, 25));
+        $this->assertEquals("$1.00", $this->vm->display());
+        $this->assertEquals("THANK YOU", $this->vm->select("cola"));
+        //$this->assertEquals("eh?", var_export($this->vm->products,true));
+    }
+
+    public function _testMakeChange()
+    {
+    }
+
+    public function _testReturnCoins()
+    {
+    }
+
+    public function _testSoldOut()
+    {
+    }
+
+    public function _testExactChangeOnly()
+    {
     }
 }
