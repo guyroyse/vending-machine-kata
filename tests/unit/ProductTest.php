@@ -1,8 +1,22 @@
 <?php
 namespace My;
 
-class ProductTest extends \PHPUnit_Framework_TestCase
+class ProductTest extends \Codeception\TestCase\Test
 {
+    /**
+     * @var \UnitTester
+     */
+    protected $tester;
+
+    protected function _before()
+    {
+    }
+
+    protected function _after()
+    {
+    }
+
+    // tests
     public function testProduct()
     {
         $cola = new Product("cola", 1.00, 3);

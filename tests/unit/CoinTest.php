@@ -1,8 +1,22 @@
 <?php
 namespace My;
 
-class CoinTest extends \PHPUnit_Framework_TestCase
+class CoinTest extends \Codeception\TestCase\Test
 {
+    /**
+     * @var \UnitTester
+     */
+    protected $tester;
+
+    protected function _before()
+    {
+    }
+
+    protected function _after()
+    {
+    }
+
+    // tests
     public function testInvlid()
     {
         $coin = new Coin();
