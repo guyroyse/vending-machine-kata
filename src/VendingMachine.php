@@ -3,28 +3,37 @@ namespace My;
 
 // \Codeception\Util\Debug::debug("message");
 
+/**
+ * class VendingMachine models a coin operated vending machine.
+ *
+ * A vending machine does the following:
+ * Accept Coins
+ * Select Product
+ * Make Change
+ * Return Coins
+ * Sold Out
+ * Exact Change Only
+ */
 class VendingMachine
 {
-    public $coinBox = array();
-    public $coins = array();
-    public $coinReturn = array();
-    public $products = array();
-    public $purchasedItem = null;
+    private $coinBox = array(); // array of Coin in the coin box
+    public $coinCurrent = array(); // array of Coin inserted by current customer
+    public $coinReturn = array(); // array of Coin to be returned to current customer
+    public $products = array(); // array of Product in machine
+    public $purchasedItem = null; // string
 
     /**
      * take the purchased item and change
      *
-     * @return int array of item, change
+     * @return int array(item, change)
      */
     public function takeItemAndChange()
     {
-        $valueOfChange = $this->coinReturnAmount();
         $change = $this->coinReturn;
-        \Codeception\Util\Debug::debug("# take change $valueOfChange");
         $this->coinReturn = array();
         $item = $this->purchasedItem;
         $this->purchasedItem = null;
-        return array($item, $change);
+        return array('item' => $item, 'change' => $change);
     }
 
     /**
@@ -32,12 +41,12 @@ class VendingMachine
      *
      * @return void
      */
-    public function acceptCoin($coin)
+    public function acceptCoin(Coin $coin)
     {
         if ($coin->value() <= 0) {
             $this->coinReturn[] = $coin;
         } else {
-            $this->coins[] = $coin;
+            $this->coinCurrent[] = $coin;
         }
     }
 
@@ -46,7 +55,7 @@ class VendingMachine
      *
      * @return void
      */
-    public function loadCoinBox($coins)
+    public function loadCoinBox(array $coins)
     {
         $this->coinBox = $coins;
     }
@@ -69,45 +78,33 @@ class VendingMachine
      */
     public function currentAmount()
     {
-        return $this->calcCoinAmount($this->coins);
+        return Coin::valueOfCoins($this->coinCurrent);
     }
 
     /**
      * return value of coins in coinbox
+     * used only in tests
      *
      * @return int
      */
     public function coinBoxAmount()
     {
-        return $this->calcCoinAmount($this->coinBox);
+        return Coin::valueOfCoins($this->coinBox);
     }
 
     /**
      * return value of coins in coin return
+     * used only in tests
      *
      * @return int
      */
     public function coinReturnAmount()
     {
-        return $this->calcCoinAmount($this->coinReturn);
+        return Coin::valueOfCoins($this->coinReturn);
     }
 
     /**
-     * return value of coins in an array of coins
-     *
-     * @return int
-     */
-    public function calcCoinAmount($coins)
-    {
-        $tot = 0;
-        foreach ($coins as $coin) {
-            $tot += $coin->value();
-        }
-        return $tot;
-    }
-
-    /**
-     * load some quantity of a given product
+     * load a given product
      *
      * @param Product $product A given product object
      * @return void
@@ -127,24 +124,23 @@ class VendingMachine
      * if invalid item, return NO SUCH ITEM
      * if quantity of selected item is zero, return SOLD OUT
      * if not enough coins inserted for selected item, return PRICE price_of_item
-     * if cannot make change, return EXACT CHANGE ONLY
-     * otherwise make the change, adjust item quantity, return THANK YOU
+     * if cannot make change, move inserted coins to coinReturn and return EXACT CHANGE ONLY
+     * otherwise make the change, adjust item quantity and coins, put the purchased item in the try, return THANK YOU
      *
      * @param $item A given product name
      * @return string
      */
     public function select($item)
     {
-        $keys = array_keys($this->products);
         $product = null;
 
         // find the product
-        foreach ($keys as $index => $name) {
-            if ($item == $name) {
-                $product = $this->products[$name];
-                break;
-            }
-        }
+        $pxx = array_filter($this->products, function ($ptmp) use ($item) {
+            return $ptmp->name == $item ? $ptmp : null;
+        });
+        // set product to first elem of pxx or null if pxx is empty
+        $product = array_shift($pxx);
+
         if (is_null($product)) {
             return "NO SUCH ITEM";
         }
@@ -157,49 +153,58 @@ class VendingMachine
             return "PRICE ".sprintf("$%0.2f", $product->price / 100);
         }
 
-        // make change
-        if ($this->makeChange($product->price)) {
-            // decrement item quantity
-            $this->products[$item]->quantity--;
-            // put purchased item in the tray
-            $this->purchasedItem = $item;
-            return "THANK YOU";
-        } else {
+        // attempt to make change
+        if (is_null($coinsToKeepAndReturn = $this->makeChange($product->price))) {
+            $this->returnCoins();
             return "EXACT CHANGE ONLY";
         }
+
+        // able to make change so update the coin arrays, products,  and purchasedItem
+        $coinsToKeep = $coinsToKeepAndReturn['received'];
+        $coinsToReturn = $coinsToKeepAndReturn['change'];
+
+        // decrement item quantity
+        $this->products[$item]->quantity--;
+
+        // put purchased item in the tray
+        $this->purchasedItem = $item;
+
+        // move the coins to where they belong
+        $this->coinBox = $coinsToKeep;
+        $this->coinReturn = array_merge($this->coinReturn, $coinsToReturn);
+        $this->coinCurrent = array();
+        return "THANK YOU";
     }
 
     /**
-     * cancel the current transaction
+     * cancel the current transaction and return coins
      *
      * @return void
      */
-    public function cancel()
+    public function returnCoins()
     {
-        foreach ($this->coins as $coin) {
-            $this->coinReturn[] = $coin;
-        }
-        $this->coins = array();
+        $this->coinReturn = array_merge($this->coinReturn, $this->coinCurrent);
+        $this->coinCurrent = array();
     }
 
     /**
      * make change if possible
      *
-     * if unable to make change, cancel the current transaction
+     * return array(coinsToKeep, coinsToReturn) if able to make change
+     * return null if unable to make change
      *
-     * @return boolean
+     * @return array(coins, coins)
      */
     private function makeChange($price)
     {
-        $allCoins=array_merge($this->coins, $this->coinBox);
-        sort($allCoins);
-        $allCoins = array_reverse($allCoins);
+        $allCoins = array_merge($this->coinCurrent, $this->coinBox);
         $coinsToReturn = array();
         $coinsToKeep = array();
 
         $valueOfChangeAvail = 0;
         $valueOfChangeNeeded = $this->currentAmount() - $price;
-        foreach ($allCoins as $coin) {
+        // partition all the coins into coins to keep and coins to return
+        foreach (Coin::sortCoinsByValueDesc($allCoins) as $coin) {
             if ($valueOfChangeAvail + $coin->value() > $valueOfChangeNeeded) {
                 $coinsToKeep[] = $coin;
             } else {
@@ -207,18 +212,6 @@ class VendingMachine
                 $coinsToReturn[] = $coin;
             }
         }
-        if ($valueOfChangeAvail == $valueOfChangeNeeded) {
-            \Codeception\Util\Debug::debug("# made change $valueOfChangeNeeded");
-            $this->coinBox = $coinsToKeep;
-            foreach ($coinsToReturn as $coin) {
-                $this->coinReturn[] = $coin;
-            }
-            $this->coins = array();
-            return true;
-        } else {
-            \Codeception\Util\Debug::debug("# failed to make change $valueOfChangeNeeded");
-            $this->cancel();
-            return false;
-        }
+        return $valueOfChangeAvail == $valueOfChangeNeeded ? array('received' => $coinsToKeep, 'change' => $coinsToReturn) : null;
     }
 }
