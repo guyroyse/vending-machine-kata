@@ -43,11 +43,11 @@ class VendingMachine
      */
     public function acceptCoin(Coin $coin)
     {
-        if ($coin->value() <= 0) {
+        if ($coin->value() <= 0) { // slug
             $this->coinReturn[] = $coin;
-        } else {
-            $this->coinCurrent[] = $coin;
+            return;
         }
+        $this->coinCurrent[] = $coin;
     }
 
     /**
@@ -74,6 +74,7 @@ class VendingMachine
     /**
      * return value of coins inserted so far
      *
+     * @SuppressWarnings(PHPMD.StaticAccess)
      * @return int
      */
     public function currentAmount()
@@ -85,6 +86,7 @@ class VendingMachine
      * return value of coins in coinbox
      * used only in tests
      *
+     * @SuppressWarnings(PHPMD.StaticAccess)
      * @return int
      */
     public function coinBoxAmount()
@@ -96,6 +98,7 @@ class VendingMachine
      * return value of coins in coin return
      * used only in tests
      *
+     * @SuppressWarnings(PHPMD.StaticAccess)
      * @return int
      */
     public function coinReturnAmount()
@@ -113,9 +116,9 @@ class VendingMachine
     {
         if (array_key_exists($product->name, $this->products)) {
             $this->products[$product->name]->quantity += $product->quantity;
-        } else {
-            $this->products[$product->name] = $product;
+            return;
         }
+        $this->products[$product->name] = $product;
     }
 
     /**
@@ -193,6 +196,7 @@ class VendingMachine
      * return array(coinsToKeep, coinsToReturn) if able to make change
      * return null if unable to make change
      *
+     * @SuppressWarnings(PHPMD.StaticAccess)
      * @return array(coins, coins)
      */
     private function makeChange($price)
@@ -207,10 +211,10 @@ class VendingMachine
         foreach (Coin::sortCoinsByValueDesc($allCoins) as $coin) {
             if ($valueOfChangeAvail + $coin->value() > $valueOfChangeNeeded) {
                 $coinsToKeep[] = $coin;
-            } else {
-                $valueOfChangeAvail += $coin->value();
-                $coinsToReturn[] = $coin;
+                continue;
             }
+            $valueOfChangeAvail += $coin->value();
+            $coinsToReturn[] = $coin;
         }
         if ($valueOfChangeAvail != $valueOfChangeNeeded) {
             return null;
