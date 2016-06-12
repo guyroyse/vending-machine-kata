@@ -126,7 +126,7 @@ class VendingMachineTest extends \Codeception\TestCase\Test
         $this->assertEquals(100, $this->vm->coinBoxAmount());
         $itemAndChange = $this->vm->takeItemAndChange();
         $this->assertEquals('cola', $itemAndChange['item']);
-        $this->assertEquals(0, Coin::valueOfCoins($itemAndChange['change']));
+        $this->assertEquals(0, CoinArrayValue::valueOfCoins($itemAndChange['change']));
     }
 
     public function testSoldOut()
@@ -189,7 +189,7 @@ class VendingMachineTest extends \Codeception\TestCase\Test
         $this->assertEquals(2, $this->vm->products['candy']->quantity);
         $itemAndChange = $this->vm->takeItemAndChange();
         $this->assertEquals('candy', $itemAndChange['item']);
-        $this->assertEquals(55, Coin::valueOfCoins($itemAndChange['change']));
+        $this->assertEquals(55, CoinArrayValue::valueOfCoins($itemAndChange['change']));
         $this->assertEquals(65, $this->vm->coinBoxAmount());
         $this->assertEquals(0, $this->vm->coinReturnAmount());
 
@@ -205,7 +205,7 @@ class VendingMachineTest extends \Codeception\TestCase\Test
         $this->assertEquals(0, $this->vm->products['gum']->quantity);
         $itemAndChange = $this->vm->takeItemAndChange();
         $this->assertEquals('gum', $itemAndChange['item']);
-        $this->assertEquals(15, Coin::valueOfCoins($itemAndChange['change']));
+        $this->assertEquals(15, CoinArrayValue::valueOfCoins($itemAndChange['change']));
 
         // try to buy more gum
         $this->vm->acceptCoin($this->quarter);
@@ -220,7 +220,7 @@ class VendingMachineTest extends \Codeception\TestCase\Test
         $this->assertEquals(0, $this->vm->products['gum']->quantity);
         $itemAndChange = $this->vm->takeItemAndChange();
         $this->assertNull($itemAndChange['item']);
-        $this->assertEquals(0, Coin::valueOfCoins($itemAndChange['change']));
+        $this->assertEquals(0, CoinArrayValue::valueOfCoins($itemAndChange['change']));
         $this->assertEquals(0, $this->vm->coinReturnAmount());
     }
 
@@ -235,7 +235,7 @@ class VendingMachineTest extends \Codeception\TestCase\Test
         $this->assertEquals(25, $this->vm->coinReturnAmount());
         $itemAndChange = $this->vm->takeItemAndChange();
         $this->assertNull($itemAndChange['item']);
-        $this->assertEquals(25, Coin::valueOfCoins($itemAndChange['change']));
+        $this->assertEquals(25, CoinArrayValue::valueOfCoins($itemAndChange['change']));
         $this->assertEquals(0, $this->vm->coinReturnAmount());
     }
 
@@ -257,7 +257,7 @@ class VendingMachineTest extends \Codeception\TestCase\Test
         $this->assertEquals("THANK YOU", $this->vm->select("gum"));
         $itemAndChange = $this->vm->takeItemAndChange();
         $this->assertEquals('gum', $itemAndChange['item']);
-        $this->assertEquals(15, Coin::valueOfCoins($itemAndChange['change']));
+        $this->assertEquals(15, CoinArrayValue::valueOfCoins($itemAndChange['change']));
         $this->assertEquals(0, $this->vm->coinReturnAmount());
         $this->assertEquals(50, $this->vm->coinBoxAmount());
     }

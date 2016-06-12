@@ -79,7 +79,7 @@ class VendingMachine
      */
     public function currentAmount()
     {
-        return Coin::valueOfCoins($this->coinCurrent);
+        return CoinArrayValue::valueOfCoins($this->coinCurrent);
     }
 
     /**
@@ -91,7 +91,7 @@ class VendingMachine
      */
     public function coinBoxAmount()
     {
-        return Coin::valueOfCoins($this->coinBox);
+        return CoinArrayValue::valueOfCoins($this->coinBox);
     }
 
     /**
@@ -103,7 +103,7 @@ class VendingMachine
      */
     public function coinReturnAmount()
     {
-        return Coin::valueOfCoins($this->coinReturn);
+        return CoinArrayValue::valueOfCoins($this->coinReturn);
     }
 
     /**
@@ -208,7 +208,7 @@ class VendingMachine
         $valueOfChangeAvail = 0;
         $valueOfChangeNeeded = $this->currentAmount() - $price;
         // partition all the coins into coins to keep and coins to return
-        foreach (Coin::sortCoinsByValueDesc($allCoins) as $coin) {
+        foreach (CoinArraySort::sortCoinsByValueDesc($allCoins) as $coin) {
             if ($valueOfChangeAvail + $coin->value() > $valueOfChangeNeeded) {
                 $coinsToKeep[] = $coin;
                 continue;

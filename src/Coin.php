@@ -66,32 +66,4 @@ class Coin
     {
         return $this->value;
     }
-
-    /**
-     * Calculate the value of an array of coins
-     *
-     * @param array of Coin
-     * @return int
-     */
-    public static function valueOfCoins($coins = array())
-    {
-        return array_reduce($coins, function ($acc, $coin) {
-            return $coin->value() + $acc;
-        });
-    }
-
-    /**
-     * sort an array of coins by value descending
-     *
-     * @param array of coins
-     * @return array of coins
-     */
-    public static function sortCoinsByValueDesc($coins = array())
-    {
-        // sort array of coins by value desc
-        usort($coins, function ($coin1, $coin2) {
-            return $coin1->value() < $coin2->value();
-        });
-        return $coins;
-    }
 }
