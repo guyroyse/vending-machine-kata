@@ -2,13 +2,13 @@
 namespace My;
 
 /**
- * class Coin identifes a round disk of certain weight and diameter as a valid coin
+ * class Coin identifes a round disk of certain weight and diameter as a type of coin.
  * coins of type nickel, dime, and quarter are recognized as valid
  * any other object is a slug and has no value
  */
 class Coin
 {
-    /*
+    /**
      * ref. https://www.usmint.gov/about_the_mint/?action=coin_specifications
      *          nickel   dime     quarter
      * weight   5.000 g  2.268 g  5.670 g
@@ -20,7 +20,7 @@ class Coin
     const PROP_NICKEL    = array('weight' => 5.000, 'diameter' => 21.21);
     const PROP_DIME      = array('weight' => 2.268, 'diameter' => 17.91);
     const PROP_QUARTER   = array('weight' => 5.670, 'diameter' => 24.26);
-    /*
+    /**
      * coin types: property and value
      */
     const TYPE_NICKEL    = array('prop'   => self::PROP_NICKEL,  'value' => 5);
@@ -31,8 +31,16 @@ class Coin
      */
     const TYPE_VALIDCOIN = array(self::TYPE_NICKEL, self::TYPE_DIME, self::TYPE_QUARTER);
 
+    /**
+     * private properties of a coin instance:
+     * weight, diameter, and assigned value
+     */
+
+    /** @var int $value */
     private $value;
+    /** @var float $weight */
     private $weight;
+    /** @var float $diameter */
     private $diameter;
 
     /**
@@ -53,6 +61,7 @@ class Coin
             $prop = array('weight' => $this->weight, 'diameter' => $this->diameter);
             if ($typeOfCoin['prop'] === $prop) {
                 $this->value = $typeOfCoin['value'];
+                break;
             }
         }
     }
