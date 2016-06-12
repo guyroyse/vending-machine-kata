@@ -8,16 +8,27 @@ namespace My;
  */
 class Coin
 {
-    // tuple(weight, diameter, value)
-    // using arbitrary numbers for weight and diameter
-    // 5.000 g  2.268 g 5.670 g
-    // 21.21 mm 17.91 mm 24.26 mm
+    /*
+     * ref. https://www.usmint.gov/about_the_mint/?action=coin_specifications
+     *          nickel   dime     quarter
+     * weight   5.000 g  2.268 g  5.670 g
+     * diameter 21.21 mm 17.91 mm 24.26 mm
+     */
+    /*
+     * coin properties: weight in grams, diameter in mm
+     */
     const PROP_NICKEL    = array('weight' => 5.000, 'diameter' => 21.21);
     const PROP_DIME      = array('weight' => 2.268, 'diameter' => 17.91);
     const PROP_QUARTER   = array('weight' => 5.670, 'diameter' => 24.26);
+    /*
+     * coin types: property and value
+     */
     const TYPE_NICKEL    = array('prop'   => self::PROP_NICKEL,  'value' => 5);
     const TYPE_DIME      = array('prop'   => self::PROP_DIME,    'value' => 10);
     const TYPE_QUARTER   = array('prop'   => self::PROP_QUARTER, 'value' => 25);
+    /*
+     * array of all valid coin types
+     */
     const TYPE_VALIDCOIN = array(self::TYPE_NICKEL, self::TYPE_DIME, self::TYPE_QUARTER);
 
     private $value;
@@ -25,18 +36,21 @@ class Coin
     private $diameter;
 
     /**
-     * identify a coin by its weight and diameter
-     * construct a coin object and save its weight and diameter
+     * Identify a coin by its weight and diameter
+     * construct a coin object and save its properties including value
+     *
+     * A slug is a coin that doesn't have valid properies and is assigned a zero value
+     *
+     * @param array (tuple of weight and diameter)
+     * @return void
      */
     public function __construct(array $prop = array('weight' => 0, 'diameter' => 0))
     {
-        $weight = $prop['weight'];
-        $diameter = $prop['diameter'];
         $this->value = 0;
-        $this->weight = $weight;
-        $this->diameter = $diameter;
+        $this->weight = $prop['weight'];
+        $this->diameter = $prop['diameter'];
         foreach (self::TYPE_VALIDCOIN as $typeOfCoin) {
-            $prop = array('weight' => $weight, 'diameter' => $diameter);
+            $prop = array('weight' => $this->weight, 'diameter' => $this->diameter);
             if ($typeOfCoin['prop'] === $prop) {
                 $this->value = $typeOfCoin['value'];
             }
@@ -44,7 +58,7 @@ class Coin
     }
 
     /**
-     * return the value of a coin in cents
+     * Return the value of a coin in cents
      *
      * @return int
      */
@@ -54,8 +68,9 @@ class Coin
     }
 
     /**
-     * calculate the value of an array of coins
+     * Calculate the value of an array of coins
      *
+     * @param array of Coin
      * @return int
      */
     public static function valueOfCoins($coins = array())
@@ -68,8 +83,8 @@ class Coin
     /**
      * sort an array of coins by value descending
      *
-     * @param coins array
-     * @return array
+     * @param array of coins
+     * @return array of coins
      */
     public static function sortCoinsByValueDesc($coins = array())
     {

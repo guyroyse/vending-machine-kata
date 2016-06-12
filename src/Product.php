@@ -14,6 +14,9 @@ class Product
 
     /**
      * construct one product
+     *
+     * @param array (name, price, quantity)
+     * @return void
      */
     public function __construct($name, $price, $quantity = 0)
     {
