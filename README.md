@@ -35,9 +35,9 @@ _So that I can give them an incentive to put money in the machine_
 
 There are three products: cola for $1.00, chips for $0.50, and candy for $0.65.  When the respective button is pressed
 and enough money has been inserted, the product is dispensed and the machine displays THANK YOU.  If the display is
-checked again, it will display INSERT COINS and the current amount will be set to $0.00.  If there is not enough money
+checked again, it will display INSERT COIN and the current amount will be set to $0.00.  If there is not enough money
 inserted then the machine displays PRICE and the price of the item and subsequent checks of the display will display
-either INSERT COINS or the current amount as appropriate.
+either INSERT COIN or the current amount as appropriate.
 
 Make Change
 -----------
@@ -77,4 +77,4 @@ _I want to be told when exact change is required_
 _So that I can determine if I can buy something with the money I have before inserting it_  
 
 When the machine is not able to make change with the money in the machine for any of the items that it sells, it will
-display EXACT CHANGE ONLY instead of INSERT COINS.
+display EXACT CHANGE ONLY instead of INSERT COIN.
