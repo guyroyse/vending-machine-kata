@@ -22,7 +22,7 @@ valid coin is inserted the amount of the coin will be added to the current amoun
 When there are no coins inserted, the machine displays INSERT COIN.  Rejected coins are placed in the coin return.
 
 NOTE: The temptation here will be to create Coin objects that know their value.  However, this is not how a real
-  vending machine works.  Instead, it identifies coins by their weight and size and then assigned a value to what
+  vending machine works.  Instead, it identifies coins by their weight and size and then assigns a value to what
   was inserted.  You will need to do something similar.  This can be simulated using strings, constants, enums,
   symbols, or something of that nature.
 
@@ -56,7 +56,7 @@ _As a customer_
 _I want to have my money returned_  
 _So that I can change my mind about buying stuff from the vending machine_  
 
-When the return coins is selected, the money the customer has placed in the machine is returned and the display shows
+When the return coins button is pressed, the money the customer has placed in the machine is returned and the display shows
 INSERT COIN.
 
 Sold Out
