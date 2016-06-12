@@ -212,6 +212,9 @@ class VendingMachine
                 $coinsToReturn[] = $coin;
             }
         }
-        return $valueOfChangeAvail == $valueOfChangeNeeded ? array('received' => $coinsToKeep, 'change' => $coinsToReturn) : null;
+        if ($valueOfChangeAvail != $valueOfChangeNeeded) {
+            return null;
+        }
+        return array('received' => $coinsToKeep, 'change' => $coinsToReturn);
     }
 }
