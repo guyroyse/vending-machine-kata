@@ -16,7 +16,7 @@ namespace My;
  */
 class VendingMachine
 {
-    private $coinBox = array(); // array of Coin in the coin box
+    public $coinBox = array(); // array of Coin in the coin box
     public $coinCurrent = array(); // array of Coin inserted by current customer
     public $coinReturn = array(); // array of Coin to be returned to current customer
     public $products = array(); // array of Product in machine
@@ -67,43 +67,8 @@ class VendingMachine
      */
     public function display()
     {
-        $tot = $this->currentAmount();
+        $tot = CoinArrayValue::valueOfCoins($this->coinCurrent);
         return $tot == 0 ? "INSERT COIN" : sprintf("$%0.2f", $tot / 100);
-    }
-
-    /**
-     * return value of coins inserted so far
-     *
-     * @SuppressWarnings(PHPMD.StaticAccess)
-     * @return int
-     */
-    public function currentAmount()
-    {
-        return CoinArrayValue::valueOfCoins($this->coinCurrent);
-    }
-
-    /**
-     * return value of coins in coinbox
-     * used only in tests
-     *
-     * @SuppressWarnings(PHPMD.StaticAccess)
-     * @return int
-     */
-    public function coinBoxAmount()
-    {
-        return CoinArrayValue::valueOfCoins($this->coinBox);
-    }
-
-    /**
-     * return value of coins in coin return
-     * used only in tests
-     *
-     * @SuppressWarnings(PHPMD.StaticAccess)
-     * @return int
-     */
-    public function coinReturnAmount()
-    {
-        return CoinArrayValue::valueOfCoins($this->coinReturn);
     }
 
     /**
@@ -131,6 +96,8 @@ class VendingMachine
      * otherwise make the change, adjust item quantity and coins, put the purchased item in the try, return THANK YOU
      *
      * @param $item A given product name
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
      * @return string
      */
     public function select($item)
@@ -152,12 +119,12 @@ class VendingMachine
             return "SOLD OUT";
         }
 
-        if ($this->currentAmount() < $product->price) {
+        if (CoinArrayValue::valueOfCoins($this->coinCurrent) < $product->price) {
             return "PRICE ".sprintf("$%0.2f", $product->price / 100);
         }
 
         // attempt to make change
-        if (is_null($coinsToKeepAndReturn = $this->makeChange($product->price))) {
+        if (is_null($coinsToKeepAndReturn = ChangeMaker::makeChange($product->price, $this->coinCurrent, $this->coinBox))) {
             $this->returnCoins();
             return "EXACT CHANGE ONLY";
         }
@@ -188,37 +155,5 @@ class VendingMachine
     {
         $this->coinReturn = array_merge($this->coinReturn, $this->coinCurrent);
         $this->coinCurrent = array();
-    }
-
-    /**
-     * make change if possible
-     *
-     * return array(coinsToKeep, coinsToReturn) if able to make change
-     * return null if unable to make change
-     *
-     * @SuppressWarnings(PHPMD.StaticAccess)
-     * @return array(coins, coins)
-     */
-    private function makeChange($price)
-    {
-        $allCoins = array_merge($this->coinCurrent, $this->coinBox);
-        $coinsToReturn = array();
-        $coinsToKeep = array();
-
-        $valueOfChangeAvail = 0;
-        $valueOfChangeNeeded = $this->currentAmount() - $price;
-        // partition all the coins into coins to keep and coins to return
-        foreach (CoinArraySort::sortCoinsByValueDesc($allCoins) as $coin) {
-            if ($valueOfChangeAvail + $coin->value() > $valueOfChangeNeeded) {
-                $coinsToKeep[] = $coin;
-                continue;
-            }
-            $valueOfChangeAvail += $coin->value();
-            $coinsToReturn[] = $coin;
-        }
-        if ($valueOfChangeAvail != $valueOfChangeNeeded) {
-            return null;
-        }
-        return array('received' => $coinsToKeep, 'change' => $coinsToReturn);
     }
 }
