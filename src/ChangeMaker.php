@@ -30,22 +30,22 @@ class ChangeMaker
      * @SuppressWarnings(PHPMD.StaticAccess)
      * @return array(coins, coins)
      */
-    public static function makeChange($price, $coinCurrent, $coinBox)
+    public static function makeChange($price, CoinCollection $coinCurrent, CoinCollection $coinBox)
     {
-        $allCoins = array_merge($coinCurrent, $coinBox);
-        $coinsToReturn = array();
-        $coinsToKeep = array();
+        $allCoins = $coinCurrent->merge($coinBox);
+        $coinsToReturn = new CoinCollection();
+        $coinsToKeep = new CoinCollection();
 
         $valueOfChangeAvail = 0;
-        $valueOfChangeNeeded = CoinArrayValue::valueOfCoins($coinCurrent) - $price;
+        $valueOfChangeNeeded = $coinCurrent->value() - $price;
         // partition all the coins into coins to keep and coins to return
-        foreach (CoinArraySort::sortCoinsByValueDesc($allCoins) as $coin) {
+        foreach ($allCoins->sortByValueDesc()->all() as $coin) {
             if ($valueOfChangeAvail + $coin->value() > $valueOfChangeNeeded) {
-                $coinsToKeep[] = $coin;
+                $coinsToKeep->push($coin);
                 continue;
             }
             $valueOfChangeAvail += $coin->value();
-            $coinsToReturn[] = $coin;
+            $coinsToReturn->push($coin);
         }
         if ($valueOfChangeAvail != $valueOfChangeNeeded) {
             return null;

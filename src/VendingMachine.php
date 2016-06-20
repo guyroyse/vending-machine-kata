@@ -16,11 +16,20 @@ namespace My;
  */
 class VendingMachine
 {
-    public $coinBox = array(); // array of Coin in the coin box
-    public $coinCurrent = array(); // array of Coin inserted by current customer
-    public $coinReturn = array(); // array of Coin to be returned to current customer
-    public $products = array(); // array of Product in machine
-    public $purchasedItem = null; // string
+    public $coinBox; // CoinCollection of the machine's coin box
+    public $coinCurrent; // CoinCollection of coins inserted by current customer
+    public $coinReturn; // CoinCollection to be returned to current customer
+    public $products; // array of Product in machine
+    public $purchasedItem; // string
+
+    public function __construct()
+    {
+        $this->coinBox = new CoinCollection();
+        $this->coinCurrent = new CoinCollection();
+        $this->coinReturn = new CoinCollection();
+        $this->products = array();
+        $this->purchasedItem = null;
+    }
 
     /**
      * take the purchased item and change
@@ -30,7 +39,7 @@ class VendingMachine
     public function takeItemAndChange()
     {
         $change = $this->coinReturn;
-        $this->coinReturn = array();
+        $this->coinReturn = new CoinCollection();
         $item = $this->purchasedItem;
         $this->purchasedItem = null;
         return array('item' => $item, 'change' => $change);
@@ -44,10 +53,10 @@ class VendingMachine
     public function acceptCoin(Coin $coin)
     {
         if ($coin->value() <= 0) { // slug
-            $this->coinReturn[] = $coin;
+            $this->coinReturn->push($coin);
             return;
         }
-        $this->coinCurrent[] = $coin;
+        $this->coinCurrent->push($coin);
     }
 
     /**
@@ -57,7 +66,7 @@ class VendingMachine
      */
     public function loadCoinBox(array $coins)
     {
-        $this->coinBox = $coins;
+        $this->coinBox = new CoinCollection($coins);
     }
 
     /**
@@ -67,7 +76,7 @@ class VendingMachine
      */
     public function display()
     {
-        $tot = CoinArrayValue::valueOfCoins($this->coinCurrent);
+        $tot = $this->coinCurrent->value();
         return $tot == 0 ? "INSERT COIN" : sprintf("$%0.2f", $tot / 100);
     }
 
@@ -105,11 +114,14 @@ class VendingMachine
         $product = null;
 
         // find the product
+/*
         $pxx = array_filter($this->products, function ($ptmp) use ($item) {
             return $ptmp->name == $item ? $ptmp : null;
         });
         // set product to first elem of pxx or null if pxx is empty
         $product = array_shift($pxx);
+*/
+        $product = Product::get($this->products, $item);
 
         if (is_null($product)) {
             return "NO SUCH ITEM";
@@ -119,7 +131,7 @@ class VendingMachine
             return "SOLD OUT";
         }
 
-        if (CoinArrayValue::valueOfCoins($this->coinCurrent) < $product->price) {
+        if ($this->coinCurrent->value() < $product->price) {
             return "PRICE ".sprintf("$%0.2f", $product->price / 100);
         }
 
@@ -141,8 +153,8 @@ class VendingMachine
 
         // move the coins to where they belong
         $this->coinBox = $coinsToKeep;
-        $this->coinReturn = array_merge($this->coinReturn, $coinsToReturn);
-        $this->coinCurrent = array();
+        $this->coinReturn = $this->coinReturn->merge($coinsToReturn);
+        $this->coinCurrent = new CoinCollection();
         return "THANK YOU";
     }
 
@@ -153,7 +165,7 @@ class VendingMachine
      */
     public function returnCoins()
     {
-        $this->coinReturn = array_merge($this->coinReturn, $this->coinCurrent);
-        $this->coinCurrent = array();
+        $this->coinReturn = $this->coinReturn->merge($this->coinCurrent);
+        $this->coinCurrent = new CoinCollection();
     }
 }

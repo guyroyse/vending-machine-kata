@@ -25,24 +25,24 @@ class ChangeMakerTest extends \Codeception\TestCase\Test
     // tests
     public function testNoCoinsAtAll()
     {
-        $res = ChangeMaker::makeChange(25, array(), array());
+        $res = ChangeMaker::makeChange(25, new CoinCollection(), new CoinCollection());
         $this->assertNull($res);
     }
     public function testNoCoinsInCoinBox()
     {
-        $res = ChangeMaker::makeChange(10, array($this->quarter), array());
+        $res = ChangeMaker::makeChange(10, new CoinCollection(array($this->quarter)), new CoinCollection());
         $this->assertNull($res);
     }
     public function testInsertQuarterReturnDimeAndNickel()
     {
-        $res = ChangeMaker::makeChange(10, array($this->quarter), array($this->nickel, $this->dime));
-        $this->assertEquals(array($this->quarter), $res['received']);
-        $this->assertEquals(array($this->dime, $this->nickel), $res['change']);
+        $res = ChangeMaker::makeChange(10, new CoinCollection(array($this->quarter)), new CoinCollection(array($this->nickel, $this->dime)));
+        $this->assertEquals(array($this->quarter), $res['received']->all());
+        $this->assertEquals(array($this->dime, $this->nickel), $res['change']->all());
     }
     public function testInsertTwoDimesReturnDime()
     {
-        $res = ChangeMaker::makeChange(10, array($this->dime, $this->dime), array($this->nickel, $this->dime));
-        $this->assertEquals(array($this->dime, $this->dime, $this->nickel), $res['received']);
-        $this->assertEquals(array($this->dime), $res['change']);
+        $res = ChangeMaker::makeChange(10, new CoinCollection(array($this->dime, $this->dime)), new CoinCollection(array($this->nickel, $this->dime)));
+        $this->assertEquals(array($this->dime, $this->dime, $this->nickel), $res['received']->all());
+        $this->assertEquals(array($this->dime), $res['change']->all());
     }
 }
