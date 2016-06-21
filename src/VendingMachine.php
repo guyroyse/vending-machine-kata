@@ -112,50 +112,29 @@ class VendingMachine
     public function select($item)
     {
         $product = null;
+        $selectEngine = new SelectEngine();
 
         // find the product
-/*
-        $pxx = array_filter($this->products, function ($ptmp) use ($item) {
-            return $ptmp->name == $item ? $ptmp : null;
-        });
-        // set product to first elem of pxx or null if pxx is empty
-        $product = array_shift($pxx);
-*/
         $product = Product::get($this->products, $item);
+        //$selector = $selectEngine->setSelector($product, $this->coinCurrent, $this->coinBox);
+        //return $selectEngine->getSelector()->__invoke($this, $product);
 
         if (is_null($product)) {
-            return "NO SUCH ITEM";
+            //return $this->selectNoSuchItem();
+            return (new SelectNoSuchItem)->__invoke();
+        } elseif ($product->quantity <= 0) {
+            //return $this->selectSoldOut();
+            return (new SelectSoldOut)->__invoke();
+        } elseif ($this->coinCurrent->value() < $product->price) {
+            //return $this->selectInsufficientFunds($product);
+            return (new SelectInsufficientFunds)->__invoke($this, $product);
+        } elseif (is_null($coinsToKeepAndReturn = ChangeMaker::makeChange($product->price, $this->coinCurrent, $this->coinBox))) {
+            //return $this->selectExactChangeOnly();
+            return (new SelectExactChangeOnly)->__invoke($this);
+        } else {
+            // able to make change so update the coin arrays, products, and purchasedItem
+            return (new SelectThankYou)->__invoke($this, $item, $coinsToKeepAndReturn);
         }
-
-        if ($product->quantity <= 0) {
-            return "SOLD OUT";
-        }
-
-        if ($this->coinCurrent->value() < $product->price) {
-            return "PRICE ".sprintf("$%0.2f", $product->price / 100);
-        }
-
-        // attempt to make change
-        if (is_null($coinsToKeepAndReturn = ChangeMaker::makeChange($product->price, $this->coinCurrent, $this->coinBox))) {
-            $this->returnCoins();
-            return "EXACT CHANGE ONLY";
-        }
-
-        // able to make change so update the coin arrays, products,  and purchasedItem
-        $coinsToKeep = $coinsToKeepAndReturn['received'];
-        $coinsToReturn = $coinsToKeepAndReturn['change'];
-
-        // decrement item quantity
-        $this->products[$item]->quantity--;
-
-        // put purchased item in the tray
-        $this->purchasedItem = $item;
-
-        // move the coins to where they belong
-        $this->coinBox = $coinsToKeep;
-        $this->coinReturn = $this->coinReturn->merge($coinsToReturn);
-        $this->coinCurrent = new CoinCollection();
-        return "THANK YOU";
     }
 
     /**
@@ -167,5 +146,91 @@ class VendingMachine
     {
         $this->coinReturn = $this->coinReturn->merge($this->coinCurrent);
         $this->coinCurrent = new CoinCollection();
+    }
+
+    /**
+     * Attempt to select non-existant product
+     *
+     * @return string
+     */
+    private function XselectNoSuchItem()
+    {
+        return "NO SUCH ITEM";
+    }
+
+    /**
+     * Attempt to select sold-out product
+     *
+     * @return string
+     */
+    private function XselectSoldOut()
+    {
+        return "SOLD OUT";
+    }
+
+    /**
+     * Attempt to select available product with insufficient funds
+     *
+     * @param $product
+     * @return string
+     */
+    private function XselectInsufficientFunds($product)
+    {
+        return "PRICE " . sprintf("$%0.2f", $product->price / 100);
+    }
+
+    /**
+     * Attempt to select product when change cannot be made
+     *
+     * @return string
+     */
+    private function XselectExactChangeOnly()
+    {
+        $this->returnCoins();
+        return "EXACT CHANGE ONLY";
+    }
+
+    /**
+     * Successful product selection
+     *
+     * @param $item
+     * @param $coinsToKeepAndReturn
+     * @return string
+     */
+    private function XselectThankYou($item, $coinsToKeepAndReturn)
+    {
+        $coinsToKeep = $coinsToKeepAndReturn['received'];
+        $coinsToReturn = $coinsToKeepAndReturn['change'];
+        // update products array and put purchased item in tray
+        $this->updateProducts($item);
+        // move the coins to where they belong
+        $this->updateCoinContainers($coinsToKeep, $coinsToReturn);
+        return "THANK YOU";
+    }
+
+    /**
+     * Update Coin Containers after successful purchase
+     *
+     * @param $coinsToKeep
+     * @param $coinsToReturn
+     */
+    public function updateCoinContainers($coinsToKeep, $coinsToReturn)
+    {
+        $this->coinBox = $coinsToKeep;
+        $this->coinReturn = $this->coinReturn->merge($coinsToReturn);
+        $this->coinCurrent = new CoinCollection();
+    }
+
+    /**
+     * Update products after successful purchase
+     *
+     * @param $item
+     */
+    public function updateProducts($item)
+    {
+        // decrement item quantity
+        $this->products[$item]->quantity--;
+        // put purchased item in the tray
+        $this->purchasedItem = $item;
     }
 }
