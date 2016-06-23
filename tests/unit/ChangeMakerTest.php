@@ -26,12 +26,12 @@ class ChangeMakerTest extends \Codeception\TestCase\Test
     public function testNoCoinsAtAll()
     {
         $res = ChangeMaker::makeChange(25, new CoinCollection(), new CoinCollection());
-        $this->assertNull($res);
+        $this->assertEquals(array(), $res);
     }
     public function testNoCoinsInCoinBox()
     {
         $res = ChangeMaker::makeChange(10, new CoinCollection(array($this->quarter)), new CoinCollection());
-        $this->assertNull($res);
+        $this->assertEquals(array(), $res);
     }
     public function testInsertQuarterReturnDimeAndNickel()
     {

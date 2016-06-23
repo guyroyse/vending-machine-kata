@@ -32,4 +32,9 @@ class ProductTest extends \Codeception\TestCase\Test
         $this->assertEquals(0.65, $candy->price);
         $this->assertEquals(1, $candy->quantity);
     }
+    public function testIsNull()
+    {
+        $dummy = new Product(null);
+        $this->assertTrue($dummy->isNull());
+    }
 }

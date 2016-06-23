@@ -4,13 +4,13 @@ namespace My;
 // \Codeception\Util\Debug::debug("message");
 
 /**
- * class ChangeMaker is responsible to make change if possible after an iterm
+ * class ChangeMaker is responsible to make change if possible after an item
  * is selected.
  *
  * Change can be constructed by using coins from the coinBox and coinCurrent arrays.
  *
- * makeChange() tries to use the largest denimantion coins first.
- * WHen a given donomiation is too large or runs out, the next largest denomination is used.
+ * makeChange() tries to use the largest denomination coins first.
+ * WHen a given donomination is too large or runs out, the next largest denomination is used.
  *
  * makeChange() returns null when change cannot bee made from the available coins.
  * Otherwise a tuple of change_to_keep and change_to_return will be returned to the caller.
@@ -24,11 +24,11 @@ class ChangeMaker
      * return null if unable to make change
      *
      * @param integer $price
-     * @param array of Coin $coinCurrent
-     * @param array of Coin $coinBox
+     * @param CoinCollection $coinCurrent
+     * @param CoinCollection $coinBox
      *
      * @SuppressWarnings(PHPMD.StaticAccess)
-     * @return array(coins, coins)
+     * @return array
      */
     public static function makeChange($price, CoinCollection $coinCurrent, CoinCollection $coinBox)
     {
@@ -48,7 +48,7 @@ class ChangeMaker
             $coinsToReturn->push($coin);
         }
         if ($valueOfChangeAvail != $valueOfChangeNeeded) {
-            return null;
+            return array();
         }
         return array('received' => $coinsToKeep, 'change' => $coinsToReturn);
     }

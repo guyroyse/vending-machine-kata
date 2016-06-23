@@ -11,7 +11,7 @@ namespace My;
 class SelectNoSuchItem extends SelectStrategy
 {
     /**
-     * Attempt to select non-existant product
+     * Attempt to select non-existent product
      *
      * @return string
      */

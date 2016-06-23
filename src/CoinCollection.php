@@ -2,7 +2,7 @@
 namespace My;
 
 /**
- * A CoinColleciton is a collection of coins of any type including slug.
+ * A CoinCollectiton is a collection of coins of any type including slug.
  * The underlying data structure is a simple array of Coin objects.
  *
  * A CoinCollection can be initialized via the constructor given an array of Coin objects.

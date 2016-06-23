@@ -4,13 +4,14 @@ namespace My;
 /**
  * class Product
  *
- * a product has a name, quantity, and price
+ * A Product has a name, quantity, and price.
+ * A "null" Product has a name that is null.
  */
 class Product
 {
     public $name;
-    public $quantity;
     public $price;
+    public $quantity;
 
     /**
      * construct one product
@@ -19,7 +20,7 @@ class Product
      *
      * @return void
      */
-    public function __construct($name, $price, $quantity = 0)
+    public function __construct($name = null, $price = 0, $quantity = 0)
     {
         $this->name = $name;
         $this->price = $price;
@@ -27,20 +28,12 @@ class Product
     }
 
     /**
-     * Get a product from an array of products
+     * isNull() returns true if this is a null Product
      *
-     * @param array of Product $products
-     * @param string $item
-     *
-     * @return Product | void
+     * @return bool
      */
-    public static function get($products, $item)
+    public function isNull()
     {
-        // find the product
-        $pxx = array_filter($products, function ($ptmp) use ($item) {
-            return $ptmp->name == $item ? $ptmp : null;
-        });
-        // return first elem of pxx or null if pxx is empty
-        return array_shift($pxx);
+        return $this->name === null;
     }
 }
