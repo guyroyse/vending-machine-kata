@@ -14,6 +14,8 @@ class SelectExactChangeOnly extends SelectStrategy
      * Attempt to select product when change cannot be made
      *
      * @param VendingMachine $vm
+     * @param Product $product
+     * @param array $ary
      * @return string
      */
     public function select(VendingMachine $vm, Product $product, array $ary)

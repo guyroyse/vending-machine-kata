@@ -48,7 +48,7 @@ class VendingMachine
     /**
      * accept a coin or slug
      *
-     * @return void
+     * @param Coin $coin
      */
     public function acceptCoin(Coin $coin)
     {
@@ -60,9 +60,9 @@ class VendingMachine
     }
 
     /**
-     * pre-load the coinbox
+     * pre-load the coinBox
      *
-     * @return void
+     * @param array $coins
      */
     public function loadCoinBox(array $coins)
     {

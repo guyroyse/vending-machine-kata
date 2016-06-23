@@ -2,7 +2,7 @@
 namespace My;
 
 /**
- * A CoinCollectiton is a collection of coins of any type including slug.
+ * A CoinCollection is a collection of coins of any type including slug.
  * The underlying data structure is a simple array of Coin objects.
  *
  * A CoinCollection can be initialized via the constructor given an array of Coin objects.
@@ -49,7 +49,7 @@ class CoinCollection
     /**
      * push any type of coin
      *
-     * @return void
+     * @param Coin $coin
      */
     public function push(Coin $coin)
     {

@@ -13,6 +13,9 @@ class SelectSoldOut extends SelectStrategy
     /**
      * Attempt to select sold-out product
      *
+     * @param VendingMachine $vm
+     * @param Product $product
+     * @param array $ary
      * @return string
      */
     public function select(VendingMachine $vm, Product $product, array $ary)

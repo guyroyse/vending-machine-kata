@@ -13,7 +13,9 @@ class SelectInsufficientFunds extends SelectStrategy
     /**
      * Attempt to select available product with insufficient funds
      *
-     * @param $product
+     * @param VendingMachine $vm
+     * @param Product $product
+     * @param array $ary
      * @return string
      */
     public function select(VendingMachine $vm, Product $product, array $ary)

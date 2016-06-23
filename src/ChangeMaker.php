@@ -10,7 +10,7 @@ namespace My;
  * Change can be constructed by using coins from the coinBox and coinCurrent arrays.
  *
  * makeChange() tries to use the largest denomination coins first.
- * WHen a given donomination is too large or runs out, the next largest denomination is used.
+ * WHen a given denomination is too large or runs out, the next largest denomination is used.
  *
  * makeChange() returns null when change cannot bee made from the available coins.
  * Otherwise a tuple of change_to_keep and change_to_return will be returned to the caller.
@@ -27,7 +27,6 @@ class ChangeMaker
      * @param CoinCollection $coinCurrent
      * @param CoinCollection $coinBox
      *
-     * @SuppressWarnings(PHPMD.StaticAccess)
      * @return array
      */
     public static function makeChange($price, CoinCollection $coinCurrent, CoinCollection $coinBox)

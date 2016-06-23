@@ -19,7 +19,6 @@ class ProductCollection
     /**
      * construct an empty collection
      *
-     * @return void
      */
     public function __construct()
     {
