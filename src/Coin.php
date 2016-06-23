@@ -2,7 +2,7 @@
 namespace My;
 
 /**
- * class Coin identifes a round disk of certain weight and diameter as a type of coin.
+ * class Coin identifies a round disk of certain weight and diameter as a type of coin.
  * coins of type nickel, dime, and quarter are recognized as valid
  * any other object is a slug and has no value
  */
@@ -47,7 +47,7 @@ class Coin
      * Identify a coin by its weight and diameter
      * construct a coin object and save its properties including value
      *
-     * A slug is a coin that doesn't have valid properies and is assigned a zero value
+     * A slug is a coin that does not have valid properties and is assigned a zero value
      *
      * @param array (tuple of weight and diameter)
      * @return void

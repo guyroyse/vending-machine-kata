@@ -7,6 +7,13 @@ class CoinCollectionTest extends \Codeception\TestCase\Test
      * @var \UnitTester
      */
     protected $tester;
+/*
+    protected $coins;
+    protected $slug;
+    protected $nickel;
+    protected $dime;
+    protected $quarter;
+*/
 
     protected function _before()
     {
