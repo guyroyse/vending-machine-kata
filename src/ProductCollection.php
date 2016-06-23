@@ -53,13 +53,16 @@ class ProductCollection
     }
 
     /**
-     * load a given product
+     * Load a given Product
+     * Throw exception when attempting to load a null Product
      *
      * @param Product $product A given product object
-     * @return void
      */
     public function load(Product $product)
     {
+        if ($product->isNull()) {
+            throw new \Exception("attempt to load a null Product");
+        }
         if ($this->get($product->name)->isNull()) {
             $this->products[$product->name] = $product;
         } else {

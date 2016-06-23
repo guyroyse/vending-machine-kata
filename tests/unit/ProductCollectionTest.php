@@ -23,6 +23,15 @@ class ProductCollectionTest extends \Codeception\Test\Unit
         $this->assertEquals(0, count($this->products->all()));
         $this->assertEquals(new ProductCollection(), $this->products);
     }
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage attempt to load a null Product
+     */
+    public function testCollectionLoadNullProductThrowsException()
+    {
+        $this->products->load(new Product());
+        $this->expectException(Exception::class);
+    }
     public function testCollectionItemGet()
     {
         $bread = new Product('bread', 125, 3);
