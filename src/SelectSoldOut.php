@@ -1,4 +1,6 @@
 <?php
+namespace My;
+
 /**
  * Created by PhpStorm.
  * User: sheiss
@@ -6,19 +8,15 @@
  * Time: 6:59 PM
  */
 
-namespace My;
-
-
-class SelectSoldOut
+class SelectSoldOut extends SelectStrategy
 {
     /**
      * Attempt to select sold-out product
      *
      * @return string
      */
-    public function __invoke()
+    public function select(VendingMachine $vm, Product $product, array $ary)
     {
         return "SOLD OUT";
     }
-
 }

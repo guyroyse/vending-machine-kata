@@ -1,4 +1,6 @@
 <?php
+namespace My;
+
 /**
  * Created by PhpStorm.
  * User: sheiss
@@ -6,10 +8,7 @@
  * Time: 6:55 PM
  */
 
-namespace My;
-
-
-class SelectInsufficientFunds
+class SelectInsufficientFunds extends SelectStrategy
 {
     /**
      * Attempt to select available product with insufficient funds
@@ -17,7 +16,7 @@ class SelectInsufficientFunds
      * @param $product
      * @return string
      */
-    public function __invoke($vm, $product)
+    public function select(VendingMachine $vm, Product $product, array $ary)
     {
         return "PRICE " . sprintf("$%0.2f", $product->price / 100);
     }

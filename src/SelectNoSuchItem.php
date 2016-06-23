@@ -1,4 +1,6 @@
 <?php
+namespace My;
+
 /**
  * Created by PhpStorm.
  * User: sheiss
@@ -6,17 +8,14 @@
  * Time: 6:56 PM
  */
 
-namespace My;
-
-
-class SelectNoSuchItem
+class SelectNoSuchItem extends SelectStrategy
 {
     /**
      * Attempt to select non-existant product
      *
      * @return string
      */
-    public function __invoke()
+    public function select(VendingMachine $vm, Product $product, array $ary)
     {
         return "NO SUCH ITEM";
     }

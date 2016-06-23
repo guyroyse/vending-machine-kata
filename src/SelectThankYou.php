@@ -1,4 +1,6 @@
 <?php
+namespace My;
+
 /**
  * Created by PhpStorm.
  * User: sheiss
@@ -6,9 +8,7 @@
  * Time: 6:00 PM
  */
 
-namespace My;
-
-class SelectThankYou
+class SelectThankYou extends SelectStrategy
 {
     /**
      * successful item selection
@@ -17,17 +17,17 @@ class SelectThankYou
      * change can be made if necessary
      *
      * @param $vm
-     * @param $item
+     * @param $product
      * @param $coinsToKeepAndReturn
      * @return string
      */
-    public function __invoke($vm, $item, $coinsToKeepAndReturn)
+    public function select(VendingMachine $vm, Product $product, array $coinsToKeepAndReturn)
     {
         $coinsToKeep = $coinsToKeepAndReturn['received'];
         $coinsToReturn = $coinsToKeepAndReturn['change'];
 
         // update products
-        $vm->updateProducts($item);
+        $vm->updateProducts($product->name);
 
         // move the coins to where they belong
         $vm->updateCoinContainers($coinsToKeep, $coinsToReturn);

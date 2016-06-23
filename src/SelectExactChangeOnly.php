@@ -1,4 +1,6 @@
 <?php
+namespace My;
+
 /**
  * Created by PhpStorm.
  * User: sheiss
@@ -6,10 +8,7 @@
  * Time: 6:52 PM
  */
 
-namespace My;
-
-
-class SelectExactChangeOnly
+class SelectExactChangeOnly extends SelectStrategy
 {
     /**
      * Attempt to select product when change cannot be made
@@ -17,10 +16,9 @@ class SelectExactChangeOnly
      * @param VendingMachine $vm
      * @return string
      */
-    public function __invoke($vm)
+    public function select(VendingMachine $vm, Product $product, array $ary)
     {
         $vm->returnCoins();
         return "EXACT CHANGE ONLY";
     }
-
 }
