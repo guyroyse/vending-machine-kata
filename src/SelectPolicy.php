@@ -41,15 +41,20 @@ class SelectPolicy
 
         if ($this->product->isNull()) {
             return new SelectNoSuchItem;
-        } elseif ($this->product->quantity <= 0) {
-            return new SelectSoldOut;
-        } elseif ($this->vm->coinCurrent->value() < $this->product->price) {
-            return new SelectInsufficientFunds;
-        } elseif (array() === ($this->changeResults = ChangeMaker::makeChange($this->product->price, $this->vm->coinCurrent, $this->vm->coinBox))) {
-            return new SelectExactChangeOnly;
-        } else {
-            return new SelectThankYou;
         }
+        if ($this->product->quantity <= 0) {
+            return new SelectSoldOut;
+        }
+        if ($this->vm->coinCurrent->value() < $this->product->price) {
+            return new SelectInsufficientFunds;
+        }
+
+        // try to make change
+        $this->changeResults = ChangeMaker::makeChange($this->product->price, $this->vm->coinCurrent, $this->vm->coinBox);
+        if (array() === $this->changeResults) {
+            return new SelectExactChangeOnly;
+        }
+        return new SelectThankYou;
     }
 
     /**
