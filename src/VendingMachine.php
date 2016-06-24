@@ -88,6 +88,8 @@ class VendingMachine
      * if not enough coins inserted for selected item, return PRICE price_of_item
      * if cannot make change, move inserted coins to coinReturn and return EXACT CHANGE ONLY
      * otherwise make the change, adjust item quantity and coins, put the purchased item in the try, return THANK YOU
+     * All above logic now encapsulated in SelectPolicy class.
+     * SelectPolicy chooses a strategy class to implement the select process.
      *
      * @param string $item A given product name
      *
@@ -95,24 +97,14 @@ class VendingMachine
      */
     public function select($item)
     {
-        $coinsToKeepAndReturn = array();
-        $strategy = null;
-
-        // find the product
-        $product = $this->products->get($item);
-
-        if ($product->isNull()) {
-            $strategy = new SelectNoSuchItem;
-        } elseif ($product->quantity <= 0) {
-            $strategy = new SelectSoldOut;
-        } elseif ($this->coinCurrent->value() < $product->price) {
-            $strategy = new SelectInsufficientFunds;
-        } elseif (array() === ($coinsToKeepAndReturn = ChangeMaker::makeChange($product->price, $this->coinCurrent, $this->coinBox))) {
-            $strategy = new SelectExactChangeOnly;
-        } else {
-            $strategy = new SelectThankYou;
-        }
-        return $strategy->select($this, $product, $coinsToKeepAndReturn);
+        $policy = new SelectPolicy($this);
+        // get a strategy class to implement select() based on the defined policy.
+        $strategy = $policy->getStrategy($item);
+        // get the product and changeResults for the select method
+        $product = $policy->getProduct();
+        $changeResults = $policy->getChangeResults();
+        // execute the strategy's select implementation
+        return $strategy->select($this, $product, $changeResults);
     }
 
     /**
@@ -132,10 +124,10 @@ class VendingMachine
      * @param $coinsToKeep
      * @param $coinsToReturn
      */
-    public function updateCoinContainers($coinsToKeep, $coinsToReturn)
+    public function updateCoinContainers($changeResults)
     {
-        $this->coinBox = $coinsToKeep;
-        $this->coinReturn = $this->coinReturn->merge($coinsToReturn);
+        $this->coinBox = $changeResults['received'];
+        $this->coinReturn = $this->coinReturn->merge($changeResults['change']);
         $this->coinCurrent = new CoinCollection();
     }
 

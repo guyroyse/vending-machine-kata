@@ -18,19 +18,16 @@ class SelectThankYou extends SelectStrategy
      *
      * @param $vm
      * @param $product
-     * @param $coinsToKeepAndReturn
+     * @param $changeResults
      * @return string
      */
-    public function select(VendingMachine $vm, Product $product, array $coinsToKeepAndReturn)
+    public function select(VendingMachine $vm, Product $product, array $changeResults)
     {
-        $coinsToKeep = $coinsToKeepAndReturn['received'];
-        $coinsToReturn = $coinsToKeepAndReturn['change'];
-
         // update products
         $vm->updateProducts($product->name);
 
         // move the coins to where they belong
-        $vm->updateCoinContainers($coinsToKeep, $coinsToReturn);
+        $vm->updateCoinContainers($changeResults);
         return "THANK YOU";
     }
 }
