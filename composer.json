@@ -1,6 +1,7 @@
 {
     "require": {
-        "codeception/codeception": "*"
+        "codeception/codeception": "*",
+        "phpmetrics/phpmetrics": "*"
     },
     "autoload": {
         "psr-4":{
