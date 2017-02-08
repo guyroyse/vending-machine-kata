@@ -1,0 +1,10 @@
+{
+    "require": {
+        "codeception/codeception": "*"
+    },
+    "autoload": {
+        "psr-4":{
+            "My\\": "src/"
+        }
+    }
+}
