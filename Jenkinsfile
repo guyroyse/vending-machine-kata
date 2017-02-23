@@ -36,7 +36,7 @@ pipeline {
                 keepAll: false,
                 reportDir: 'tests/_output/coverage',
                 reportFiles: 'index.html',
-                reportName: 'HTML Report - Coverage'])
+                reportName: 'HTML Report - Coverage'
             ]
             publishHTML target:[
                 allowMissing: false,
