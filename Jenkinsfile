@@ -18,8 +18,10 @@ pipeline {
             }
         }
         stage('Metrics') {
-            sh 'test -f vendor/bin/phpmetrics || composer require phpmetrics/phpmetrics'
-            sh './vendor/bin/phpmetrics --report-html=tests/_output/phpmetrics.html src'
+            steps {
+                sh 'test -f vendor/bin/phpmetrics || composer require phpmetrics/phpmetrics'
+                sh './vendor/bin/phpmetrics --report-html=tests/_output/phpmetrics.html src'
+            }
         }
 
         stage('Reports') {
