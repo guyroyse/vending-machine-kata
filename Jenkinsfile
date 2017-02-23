@@ -1,20 +1,22 @@
-node {
-    stage 'Prepare environment'
-
-    checkout scm
-
-    sh 'docker -v'
-
-    docker.image('laradock/workspace').inside {
-
-        stage('Build') {
-            sh "HOME=$WORKSPACE composer install -d $WORKSPACE"
+pipeline {
+    agent {
+        dockerfile {}
+    }
+    options {
+        // Keep the 10 most recent builds
+        buildDiscarder(logRotator(numToKeepStr:'10'))
+    }
+    stages {
+        stage ('Install & Build') {
+            steps {
+                sh "HOME=$WORKSPACE composer install -d $WORKSPACE"
+            }
         }
-
-        stage('Test') {
-           sh './vendor/bin/codecept run unit --coverage --coverage-html'
+        stage ('Test') {
+            steps {
+                sh 'php -dzend_extension=xdebug.so vendor/bin/codecept run unit --coverage --coverage-html'
+            }
         }
-
         stage('Metrics') {
             echo('Generating Metrics')
             sh 'test -f vendor/bin/phpmetrics || composer require phpmetrics/phpmetrics'
@@ -25,6 +27,11 @@ node {
             echo('Generating Reports')
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'tests/_output/coverage', reportFiles: 'index.html', reportName: 'HTML Report - Coverage'])
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'tests/_output', reportFiles: 'phpmetrics.html', reportName: 'HTML Report - PHPMetrics'])
+        }
+        stage('Clean Up') {
+            steps {
+                deleteDir()
+            }
         }
     }
 }
