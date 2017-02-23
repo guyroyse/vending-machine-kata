@@ -23,11 +23,24 @@ pipeline {
                 sh './vendor/bin/phpmetrics --report-html=tests/_output/phpmetrics.html src'
             }
         }
-
         stage('Reports') {
             steps {
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'tests/_output/coverage', reportFiles: 'index.html', reportName: 'HTML Report - Coverage'])
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'tests/_output', reportFiles: 'phpmetrics.html', reportName: 'HTML Report - PHPMetrics'])
+                publishHTML target:[
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: false,
+                    reportDir: 'tests/_output/coverage',
+                    reportFiles: 'index.html',
+                    reportName: 'HTML Report - Coverage'])
+                ]
+                publishHTML target:[
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: false,
+                    reportDir: 'tests/_output',
+                    reportFiles: 'phpmetrics.html',
+                    reportName: 'HTML Report - PHPMetrics'
+                ]
             }
         }
         stage('Clean Up') {
