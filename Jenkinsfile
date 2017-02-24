@@ -2,9 +2,6 @@ pipeline {
     agent {
         dockerfile {}
     }
-    environment {
-        HOME = $WORKSPACE
-    }
     options {
         // Keep the 10 most recent builds
         buildDiscarder(logRotator(numToKeepStr:'10'))
@@ -12,8 +9,8 @@ pipeline {
     stages {
         stage ('Install & Build') {
             steps {
-                sh "HOME=$HOME WORKSPACE=$WORKSPACE"
-                sh "HOME=$WORKSPACE composer install -d $WORKSPACE"
+                sh 'echo HOME=$HOME WORKSPACE=$WORKSPACE'
+                sh 'composer install'
             }
         }
         stage ('Test') {
