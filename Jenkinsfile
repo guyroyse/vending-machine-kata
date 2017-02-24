@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage ('Install & Build') {
             steps {
-                sh "HOME=$HOME composer install"
+                sh 'composer install'
             }
         }
         stage ('Test') {
@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Metrics') {
             steps {
-                sh "test -f vendor/bin/phpmetrics || HOME=$HOME composer require phpmetrics/phpmetrics"
+                sh 'test -f vendor/bin/phpmetrics || composer require phpmetrics/phpmetrics'
                 sh './vendor/bin/phpmetrics --report-html=tests/_output/phpmetrics.html src'
             }
         }
@@ -42,7 +42,7 @@ pipeline {
                 reportFiles: 'phpmetrics.html',
                 reportName: 'HTML Report - PHPMetrics'
             ]
-            deleteDir()
+            //deleteDir()
         }
     }
 }
