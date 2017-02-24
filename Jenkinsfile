@@ -9,8 +9,7 @@ pipeline {
     stages {
         stage ('Install & Build') {
             steps {
-                sh 'echo HOME=$HOME WORKSPACE=$WORKSPACE'
-                sh 'composer install'
+                sh "HOME=$HOME composer install"
             }
         }
         stage ('Test') {
@@ -20,7 +19,7 @@ pipeline {
         }
         stage('Metrics') {
             steps {
-                sh 'test -f vendor/bin/phpmetrics || composer require phpmetrics/phpmetrics'
+                sh "test -f vendor/bin/phpmetrics || HOME=$HOME composer require phpmetrics/phpmetrics"
                 sh './vendor/bin/phpmetrics --report-html=tests/_output/phpmetrics.html src'
             }
         }
