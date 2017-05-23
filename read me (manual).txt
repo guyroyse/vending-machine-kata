@@ -1,0 +1,25 @@
+Guanxin Wang
+why1418@live.com
+==================================================================
+
+Welcome to the Vending Machine App!
+
+I wrote this in C# and use WPF to design its UI.
+Also, it can be done in UWP (Universal Windows Platform) app,
+however, it seems no necessary and maybe not convenient to you.
+==================================================================
+
+Manual
+
+1. You can find the file "Vending_Machine_WPF.exe", in the path "\Vending_Machine_WPF\bin\Release", double click to run.
+
+2. The UI maybe different due to the system theme, I attached a figure to show my UI.
+
+3. You can press any button you like to test this vending machine, however, to buy products, please follow the next step.
+
+4. Buy Product: 
+a) There are 3 kinds of coins, press any one to insert 1 coin of the kind you choose.
+b) Click the product to buy the product you want. If the money is enough, you will get the products. If not, vending machine will show how much you should insert.
+c) After purchase the product, don't forget to take it and the changes.
+
+5. Thank you to use this Vending Machine App!

@@ -1,0 +1,89 @@
+﻿<Window x:Class="Vending_Machine_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Vending_Machine_WPF"
+        mc:Ignorable="d"
+        Title="Vending Machine by Guanxin" Height="410" Width="360" ResizeMode="NoResize">
+    <Grid>
+        <Label x:Name="labe_title" Content="Vending Machine" FontSize="20"
+               HorizontalAlignment="Center" 
+               Margin="0,15,0,0" VerticalAlignment="Top"
+               />
+        <Button x:Name="button_cola" Content="Cola" Click="button_cola_Click"
+                HorizontalAlignment="Left" Margin="45,88,0,0" 
+                VerticalAlignment="Top" Width="60" Background="#FFEEEEEE"/>
+        <Label x:Name="label_cola" Content="$1.50" 
+               HorizontalAlignment="Left" 
+               Margin="130,85,0,0" 
+               VerticalAlignment="Top"/>
+        <Button x:Name="button_chip" Content="Chips" Click="button_chip_Click"
+                HorizontalAlignment="Left" Margin="45,128,0,0" 
+                VerticalAlignment="Top" Width="60" Background="#FFEEEEEE"/>
+        <Label x:Name="label_chip" Content="$0.50" 
+               HorizontalAlignment="Left" 
+               Margin="130,125,0,0" 
+               VerticalAlignment="Top"/>
+        <Button x:Name="button_candy" Content="Candy" Click="button_candy_Click"
+                HorizontalAlignment="Left" Margin="45,168,0,0" 
+                VerticalAlignment="Top" Width="60" Background="#FFEEEEEE"/>
+        <Label x:Name="label_candy" Content="$0.65" 
+               HorizontalAlignment="Left" 
+               Margin="130,165,0,0" 
+               VerticalAlignment="Top"/>
+        <Label x:Name="label_message" Content="INSERT COIN" 
+               HorizontalAlignment="Center" FontSize="13"
+               Margin="185,75,0,0" VerticalAlignment="Top" Background="#FFDCE516"/>
+        <Rectangle HorizontalAlignment="Left" Height="200" 
+                   Margin="30,75,0,0" Stroke="Black" VerticalAlignment="Top" 
+                   Width="145" />
+        
+        <Button x:Name="button25" Content="Insert 1 Quarter" 
+                HorizontalAlignment="Right"
+                Click="button25_Click"  Margin="0,115,30,0" 
+                VerticalAlignment="Top" Width="100" Background="#FFD1C6C6"/>
+        <Button x:Name="button10" Content="Insert 1 Dime" 
+                HorizontalAlignment="Right"
+                Click="button10_Click"
+                Margin="0,145,30,0" VerticalAlignment="Top" Width="100" Background="#FFD1C6C6"/>
+        <Button x:Name="button5" Content="Insert 1 Nickel" 
+                HorizontalAlignment="Right"
+                Click="button5_Click"
+                Margin="0,175,30,0" VerticalAlignment="Top" Width="100" Background="#FFD1C6C6"/>
+        <Button x:Name="button_return" Content="Return Coins" 
+                HorizontalAlignment="Right"
+                Click="button_return_Click"
+                Margin="0,205,30,0" VerticalAlignment="Top" Width="100" Background="#FFD1C6C6"/>
+        <Label x:Name="label_push" Content="P U S H" FontSize="27" HorizontalAlignment="Left" 
+               Margin="55,290,0,0" VerticalAlignment="Top" Width="100" Height="41" Background="#FF5C5C5C" Foreground="White"/>
+        <Label x:Name="label_result" Content="" HorizontalAlignment="Left" 
+               Margin="55,330,0,0" VerticalAlignment="Top" />
+        <Label x:Name="label_changes" Content="Here are your changes:" 
+               HorizontalAlignment="Left" 
+               Margin="190,250,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_changes_quarter" Content="Quarters Number:" 
+               HorizontalAlignment="Left" 
+               Margin="190,270,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_changes_dime" Content="Dimes Number:" 
+               HorizontalAlignment="Left" 
+               Margin="190,290,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_changes_nickel" Content="Nickels Number:" 
+               HorizontalAlignment="Left" 
+               Margin="190,310,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_changes_quarter_num" Content="0" 
+               HorizontalAlignment="Left" 
+               Margin="290,270,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_changes_dime_num" Content="0" 
+               HorizontalAlignment="Left" 
+               Margin="290,290,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_changes_nickel_num" Content="0" 
+               HorizontalAlignment="Left" 
+               Margin="290,310,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button_clear" Content="Take products and changes" HorizontalAlignment="Left"
+                Click="button_clear_Click"
+                Margin="180,336,0,0" VerticalAlignment="Top" />
+
+
+    </Grid>
+</Window>

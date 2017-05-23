@@ -1,0 +1,14 @@
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\bin\Debug\Vending_Machine_WPF.exe.config
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\bin\Debug\Vending_Machine_WPF.exe
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\bin\Debug\Vending_Machine_WPF.pdb
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\obj\Debug\Vending_Machine_WPF.csprojResolveAssemblyReference.cache
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\obj\Debug\MainWindow.g.cs
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\obj\Debug\App.g.cs
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\obj\Debug\Vending_Machine_WPF_MarkupCompile.cache
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\obj\Debug\Vending_Machine_WPF_MarkupCompile.lref
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\obj\Debug\MainWindow.baml
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\obj\Debug\Vending_Machine_WPF.g.resources
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\obj\Debug\Vending_Machine_WPF.Properties.Resources.resources
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\obj\Debug\Vending_Machine_WPF.csproj.GenerateResource.Cache
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\obj\Debug\Vending_Machine_WPF.exe
+C:\Users\why14\OneDrive\Projects\Vending_Machine_WPF\Vending_Machine_WPF\obj\Debug\Vending_Machine_WPF.pdb
