@@ -1,25 +1,29 @@
-Vending Machine Kata
+Mobile Vending Machine App Kata
 ====================
 
-In this exercise you will build the brains of a vending machine.  It will accept money, make change, maintain
+In this exercise you will build a simulated vending machine mobile application.  It will accept money, make change, maintain
 inventory, and dispense products.  All the things that you might expect a vending machine to accomplish.
 
-The point of this kata to to provide a larger than trivial exercise that can be used to practice TDD.  A significant
+The point of this kata to to provide a larger than trivial exercise that can be used to practice TDD in mobile development.  A significant
 portion of the effort will be in determining what tests should be written and, more importantly, written next.
+
+Mobile Requirements
+===================
+The mobile interface should consist of one or more screens with appropriate controls to expose the vending machine functionality.  The app should work whether it is online or offline, and no external data (remote services, etc) are required.  No special consideration should be made for screen orientation.
 
 Features
 ========
 
 Accept Coins
 ------------
-  
+
 _As a vendor_  
 _I want a vending machine that accepts coins_  
 _So that I can collect money from the customer_  
 
 The vending machine will accept valid coins (nickels, dimes, and quarters) and reject invalid ones (pennies).  When a
 valid coin is inserted the amount of the coin will be added to the current amount and the display will be updated.
-When there are no coins inserted, the machine displays INSERT COIN.  Rejected coins are placed in the coin return.
+When there are no coins inserted, the machine displays INSERT COIN.  Rejected coins are placed in the coin return.  In order to simulate inserting coins and rejecting coins the app should accept user input which is not strictly limited to the valid coins.
 
 NOTE: The temptation here will be to create Coin objects that know their value.  However, this is not how a real
   vending machine works.  Instead, it identifies coins by their weight and size and then assigns a value to what
