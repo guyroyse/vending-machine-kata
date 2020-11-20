@@ -5,6 +5,10 @@ header {
     justify-content: center;
 }
 
+header h1 {
+    margin: 1rem;
+}
+
 .vending-machine {
     display: flex;
     flex-direction: column;
@@ -25,4 +29,15 @@ header {
 
 .display-window {
     grid-row: span 2;
+}
+
+.coin-handler {
+    display: flex;
+    flex-direction: row;
+}
+
+.accumulator-readout {
+    height: 2rem;
+    width: 4rem;
+    padding: 0.5rem;
 }

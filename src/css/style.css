@@ -1,13 +1,40 @@
+@font-face {
+    font-family: 'SevenSegment';
+    src: url('/src/fonts/fonts-DSEG_v046/fonts-DSEG_v046/DSEG7-Modern/DSEG7Modern-Italic.woff') format('woff'), url('/src/fonts/fonts-DSEG_v046/fonts-DSEG_v046/DSEG7-Modern/DSEG7Modern-LightItalic.woff') format('woff');
+}
+
+body {
+    background-image: url('/src/img/pexels-pixabay-207142.jpg');
+    background-size: contain;
+}
+
 header h1 {
     font-family: 'Modak', cursive;
     font-weight: lighter;
+    background-color: rgba(222, 184, 135, 0.699);
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
 }
 
 .machine-body {
     background-color: rgb(46, 0, 153);
     color: rgb(255, 248, 220);
+    border-radius: 10px;
 }
 
 .display-window {
     background-color: rgb(34, 34, 34);
+    border-radius: 4px;
+}
+
+.accumulator-readout {
+    display: flex;
+    background-color: black;
+    color: brown;
+    border-radius: 4px;
+    font-family: "SevenSegment";
+    font-size: x-large;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
 }

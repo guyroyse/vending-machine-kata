@@ -13,7 +13,7 @@
 
 <body>
     <header>
-        <h1>MillieCola Vending llc.</h1>
+        <h1>MillieCola® Vending llc.</h1>
     </header>
 
     <section class=vending-machine>
@@ -23,14 +23,15 @@
             <div class="display-window">
                 window-placeholder displaying cola, chips, and candy
             </div>
-            <div class="coin-slot">
-                coin-slot
+            <div class="coin-handler">
+                <div class="accumulator-readout">$0.00</div>
+                <div class="coin-slot">coin-slot</div>
             </div>
             <div class="selector-buttons">
                 <ul>
-                    <li>cola: $1.00</li>
-                    <li>chips: $0.50</li>
-                    <li>candy: $0.65</li>
+                    <li><button class="cola__button">cola: $1.00</button></li>
+                    <li><button class="chips__button">chips: $0.50</button></li>
+                    <li><button class="candy__button">candy: $0.65</button></li>
                 </ul>
             </div>
             <div class="product-drop">
