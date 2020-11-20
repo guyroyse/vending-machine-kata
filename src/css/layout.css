@@ -1,0 +1,28 @@
+header {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    justify-content: center;
+}
+
+.vending-machine {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.machine-body {
+    display: grid;
+    width: 80vw;
+    height: 100%;
+    gap: 10px;
+    padding: 1rem;
+    margin: 2rem;
+    grid-template-columns: 4fr 1fr;
+    grid-template-rows: 1fr 5fr 1fr;
+}
+
+.display-window {
+    grid-row: span 2;
+}

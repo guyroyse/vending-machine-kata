@@ -1,0 +1,13 @@
+header h1 {
+    font-family: 'Modak', cursive;
+    font-weight: lighter;
+}
+
+.machine-body {
+    background-color: rgb(46, 0, 153);
+    color: rgb(255, 248, 220);
+}
+
+.display-window {
+    background-color: rgb(34, 34, 34);
+}
