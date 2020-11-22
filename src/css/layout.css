@@ -5,10 +5,6 @@ header {
     justify-content: center;
 }
 
-header h1 {
-    margin: 1rem;
-}
-
 .vending-machine {
     display: flex;
     flex-direction: column;
