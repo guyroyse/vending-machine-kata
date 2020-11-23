@@ -5,6 +5,12 @@ header {
     justify-content: center;
 }
 
+#coin-value {
+    display: flex;
+    width: 20rem;
+    text-align: center;
+}
+
 .vending-machine {
     display: flex;
     flex-direction: column;
@@ -34,6 +40,6 @@ header {
 
 .accumulator-readout {
     height: 2rem;
-    width: 4rem;
+    width: 8rem;
     padding: 0.5rem;
 }

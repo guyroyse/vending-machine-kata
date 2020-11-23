@@ -18,7 +18,7 @@
     </header>
 
     <section class=vending-machine>
-        <p>MillieCola</p>
+        <input type="text" name="coin-value" id="coin-value" placeholder="Type a coin name and press enter">
         <div class="machine-body">
 
             <div class="display-window">
@@ -26,13 +26,13 @@
             </div>
             <div class="coin-handler">
                 <div class="accumulator-readout">$0.00</div>
-                <div class="coin-slot">coin-slot</div>
+                <!-- <div class="coin-slot">coin-slot</div> -->
             </div>
             <div class="selector-buttons">
                 <ul>
-                    <li><button class="cola__button">cola: $1.00</button></li>
-                    <li><button class="chips__button">chips: $0.50</button></li>
-                    <li><button class="candy__button">candy: $0.65</button></li>
+                    <li><button name="cola-button" class="cola__button button">cola: $1.00</button></li>
+                    <li><button class="chips__button button">chips: $0.50</button></li>
+                    <li><button class="candy__button button">candy: $0.65</button></li>
                 </ul>
             </div>
             <div class="product-drop">
